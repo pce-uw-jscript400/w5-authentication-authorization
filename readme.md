@@ -24,9 +24,9 @@ By the end of this lesson, you should be able to authorize your routes with JWTs
 
 1. Update the `MONGO_DB_CONNECTION` in your `nodemon.json` file with the full connection string. Make sure you include the password you set up for the database and change the name of the database from `test` to something lke `exclusive_party_dev`.
 
-1. `npm run reset-db`
-
 1. `npm install`
+
+1. `npm run reset-db`
 
 1. `npm run dev`
 
