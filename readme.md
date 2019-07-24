@@ -116,7 +116,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** Why is it important to give a non-specific error message as opposed to a message like "Password incorrect?"
 
-* **Your Answer:**
+* **Your Answer:** It's important because we want to keep that error message internal.
 
 ---
 
@@ -129,6 +129,9 @@ Once installation is working, take a look at the existing code to make sure you 
 * **Question:** In your own words, describe the three parts of a JWT.
 
 * **Your Answer:**
+Header => Similar to metadata, info on the request, includes type and signing
+Payload => Contains statements about user and additional data
+Signature => Verifies that secret is included, meaning that it is valid
 
 ---
 
@@ -136,15 +139,15 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** Which of our current routes will require us to use the `jsonwebtoken` library? (i.e. When will we be creating or decoding JWTs?)
 
-* **Your Answer:**
+* **Your Answer:** We will be creating JWTs after a user successfully logs in.
 
 * **Question:** JWTs allow for custom information (i.e. payload) to be returned back to the client. What kind of information do you think would be useful to send back to our client?
 
-* **Your answer:**
+* **Your answer:** Information that we want to return to the client include the user's information like an ID, username or name, permissions or settings.
 
 * **Question:** The custom information (i.e. payload) inside of JWT can be [easily decoded](https://jwt.io/#debugger). What kind of information should we _not_ store inside of a JWT?
 
-* **Your Answer:**
+* **Your Answer:** We should not store the password, private information like credit card information.
 
 ---
 
@@ -200,7 +203,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** What happens? Why?
 
-* **Your Answer:**
+* **Your Answer:** We get an error message that we are not authorized. That is because we made the request without the token.
 
 ---
 
@@ -208,7 +211,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** What happens? Why?
 
-* **Your Answer:**
+* **Your Answer:** By doing this we are able to get authorization because the token is validated.
 
 ---
 
