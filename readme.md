@@ -40,7 +40,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Your Answer:** 
 
----
+
 
 - [ ] Imagine that as a user, you enter your username and password into a site in order to signup.
 
