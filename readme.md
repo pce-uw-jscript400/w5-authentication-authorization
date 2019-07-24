@@ -46,7 +46,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** What happens next?
 
-* **Your Answer:**
+* **Your Answer:** It'll first check whether the username is exists. Then it'll validate whether the password meets requirements. Then encrypts password then saves that information in the database.
 
 ---
 
@@ -54,7 +54,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** How does the website verify that you are indeed the same user?
 
-* **Your Answer:**
+* **Your Answer:** It'll read the username and then compare the password.
 
 ---
 
@@ -62,11 +62,11 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** How does the website know you are or are not allowed on a specific route?
 
-* **Your Answer:**
+* **Your Answer:** The website knows the permissions that this user has.
 
 * **Question:** Describe the difference between authentication and authorization.
 
-* **Your Answer:**
+* **Your Answer:** Authentication is you are who you say you are. Authorization is you're allowed to do what you want to do.
 
 ---
 
@@ -80,15 +80,15 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** This code is currently _very_ insecure. Why?
 
-* **Your Answer:**
+* **Your Answer:** The code is insecure because we are returning the users username and password with each successful request.
 
 * **Question:** What would happen if three different users tried to sign up with the same username? How can we prevent that?
 
-* **Your Answer:**
+* **Your Answer:** With our current code that is possible. We could iterate through all users and if username exists and if so throw an error.
 
 * **Question:** Why are we making our route `POST /api/signup` as opposed to `POST /api/users`?
 
-* **Your Answer:**
+* **Your Answer:** Signup is more descriptive and terminology commonly used for auth. API users infers more of an admin creating users.
 
 ---
 
@@ -102,7 +102,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
   _NOTE: We will not go into this too deeply for the sake of brevity, however this is a really interesting topic! I would encourage you to look into this more on your own, if you're interested._
 
-* **Your Answer:**
+* **Your Answer:** Salt rounds will set a number or rounds that will be used to hash the password.
 
 ---
 
