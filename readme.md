@@ -38,7 +38,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** Describe what this code is doing and what its purpose is.
 
-* **Your Answer:** 
+* **Your Answer:** It deletes all records in the database and adds 2 records. It "resets" the database which is useful for development.
 
 ---
 
@@ -46,7 +46,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** What happens next?
 
-* **Your Answer:**
+* **Your Answer:** It calls an endpoint to create an account with the given user name and password. Hopefully, the password is not stored as clear text. It will fail if the user already exists or the password does not meet password complexity rules. It may send an email to verify your email address.
 
 ---
 
@@ -54,7 +54,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** How does the website verify that you are indeed the same user?
 
-* **Your Answer:**
+* **Your Answer:** It checks to see if the given user name and password match the stored account. 
 
 ---
 
@@ -62,11 +62,11 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** How does the website know you are or are not allowed on a specific route?
 
-* **Your Answer:**
+* **Your Answer:** It checks to see if your account has permission for the route.
 
 * **Question:** Describe the difference between authentication and authorization.
 
-* **Your Answer:**
+* **Your Answer:** Authentication proves who you are. Authorization decides what you can do.
 
 ---
 
@@ -80,15 +80,15 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** This code is currently _very_ insecure. Why?
 
-* **Your Answer:**
+* **Your Answer:**  Our endpoint is not using SSL. I'm not sure if our connection to mongo is encrypted. Finally, the password is being stored in clear text.
 
 * **Question:** What would happen if three different users tried to sign up with the same username? How can we prevent that?
 
-* **Your Answer:**
+* **Your Answer:** Three different Guests would be created with the same username. We can make the username unique.
 
 * **Question:** Why are we making our route `POST /api/signup` as opposed to `POST /api/users`?
 
-* **Your Answer:**
+* **Your Answer:** Signing up is a different type of action from just creating a user.
 
 ---
 
@@ -102,7 +102,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
   _NOTE: We will not go into this too deeply for the sake of brevity, however this is a really interesting topic! I would encourage you to look into this more on your own, if you're interested._
 
-* **Your Answer:**
+* **Your Answer:** higher saltRounds increases the time it takes to compute the hash. Increasing the time, increases the time it takes for a hacker to try multiple passwords.
 
 ---
 
@@ -116,7 +116,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** Why is it important to give a non-specific error message as opposed to a message like "Password incorrect?"
 
-* **Your Answer:** 
+* **Your Answer:** For security, you don't want to let an intruder know that he/she has found a correct username.
 
 ---
 
@@ -128,7 +128,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** In your own words, describe the three parts of a JWT.
 
-* **Your Answer:**
+* **Your Answer:** The Header has the type of token and signing algorithm. The Payload holds the claims, like who you are and what roles you are authorized for. The Signature allows you to verify that the message has not been changed.
 
 ---
 
@@ -136,15 +136,15 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** Which of our current routes will require us to use the `jsonwebtoken` library? (i.e. When will we be creating or decoding JWTs?)
 
-* **Your Answer:**
+* **Your Answer:** `/login` needs to create and return a JWT to the client.
 
 * **Question:** JWTs allow for custom information (i.e. payload) to be returned back to the client. What kind of information do you think would be useful to send back to our client?
 
-* **Your answer:**
+* **Your answer:** Their username and other user metadata.
 
 * **Question:** The custom information (i.e. payload) inside of JWT can be [easily decoded](https://jwt.io/#debugger). What kind of information should we _not_ store inside of a JWT?
 
-* **Your Answer:**
+* **Your Answer:** Anything that is a secret, like a password.
 
 ---
 
@@ -158,7 +158,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** The `.sign()` method takes three arguments. Describe each argument in your own words, using the above code as an example.
 
-* **Your Answer:**
+* **Your Answer:** The first is the payload, it holds claims. The second is a secret used to sign the token. The third is for options like an expiration date.
 
 ---
 
@@ -174,7 +174,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** Describe the difference between **authentication** and **authorization**, given the above context.
 
-* **Your Answer:**
+* **Your Answer:** When we **authenticate** the user, we give them back a JWT. The user will give us the JWT when making requests so that we can **authorize** their use of the route.
 
 ---
 
@@ -200,7 +200,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** What happens? Why?
 
-* **Your Answer:**
+* **Your Answer:** 401 Unauthorized
 
 ---
 
@@ -208,7 +208,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** What happens? Why?
 
-* **Your Answer:**
+* **Your Answer:** We get our user data since we added the JWT to the `Authorization` header.
 
 ---
 
