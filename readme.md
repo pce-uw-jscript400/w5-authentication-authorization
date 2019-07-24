@@ -38,7 +38,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** Describe what this code is doing and what its purpose is.
 
-* **Your Answer:** 
+* **Your Answer:** `deleteMany()` is called on the Party collection. This will delete all of the documents that are part of the Party collection. Once deleted, two new documents of Party are created.
 
 ---
 
@@ -50,7 +50,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 ---
 
-- [ ] Imagine that as a user, you are now logging back into that same website. 
+- [ ] Imagine that as a user, you are now logging back into that same website.
 
 * **Question:** How does the website verify that you are indeed the same user?
 
@@ -116,7 +116,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** Why is it important to give a non-specific error message as opposed to a message like "Password incorrect?"
 
-* **Your Answer:** 
+* **Your Answer:**
 
 ---
 
@@ -179,7 +179,7 @@ Once installation is working, take a look at the existing code to make sure you 
 ---
 
 - [ ] Add the following route to the top of your `auth.js` file. Then, make a request to this route in Postman.
-  
+
   ```js
   router.get('/profile', async (req, res, next) => {
     try {
@@ -188,7 +188,7 @@ Once installation is working, take a look at the existing code to make sure you 
       const guest = await Guest.findOne({ _id: payload.id }).select('-__v -password')
 
       const status = 200
-      res.json({ status, guest })  
+      res.json({ status, guest })
     } catch (e) {
       console.error(e)
       const error = new Error('You are not authorized to access this route.')
