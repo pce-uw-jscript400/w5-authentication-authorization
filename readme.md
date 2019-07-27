@@ -38,7 +38,8 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** Describe what this code is doing and what its purpose is.
 
-* **Your Answer:** 
+* **Your Answer:**
+The code is reseting the data in party and then adding data.  It is to reset your database if you mess it all up in a dev environment.
 
 ---
 
@@ -47,14 +48,16 @@ Once installation is working, take a look at the existing code to make sure you 
 * **Question:** What happens next?
 
 * **Your Answer:**
+There is a check to see if the username is uniquie.  Password is checked if it is correct agaist a database.
 
 ---
 
-- [ ] Imagine that as a user, you are now logging back into that same website. 
+- [ ] Imagine that as a user, you are now logging back into that same website.
 
 * **Question:** How does the website verify that you are indeed the same user?
 
 * **Your Answer:**
+It checks the user information, such as the username.
 
 ---
 
@@ -63,10 +66,13 @@ Once installation is working, take a look at the existing code to make sure you 
 * **Question:** How does the website know you are or are not allowed on a specific route?
 
 * **Your Answer:**
+It checks the user permissions.  It checks the authentication and authorization.
 
 * **Question:** Describe the difference between authentication and authorization.
 
 * **Your Answer:**
+Authentication - You are who you say you are.
+Authorization- That you can do what you say you can do.
 
 ---
 
@@ -81,15 +87,18 @@ Once installation is working, take a look at the existing code to make sure you 
 * **Question:** This code is currently _very_ insecure. Why?
 
 * **Your Answer:**
+The password and username are sent not encrypted. Everyone can see it.
 
 * **Question:** What would happen if three different users tried to sign up with the same username? How can we prevent that?
 
 * **Your Answer:**
+Currently they can log in with the same username.  We can set up the JavaScript so that the username is the key and no other users can login with that username.
+
 
 * **Question:** Why are we making our route `POST /api/signup` as opposed to `POST /api/users`?
 
 * **Your Answer:**
-
+It is for User Experience. Most users know if they are going to Sign Up they are becoming a new user, where as users could be a list of users already there.
 ---
 
 - [ ] We need a way to securely store a password in our database. Install [node.bcrypt.js](https://www.npmjs.com/package/bcrypt), require it in your new routes file, and use the `bcrypt.hash()` method to encrypt the password before storing it. Test your signup process to make sure the password is hashed.
@@ -103,7 +112,7 @@ Once installation is working, take a look at the existing code to make sure you 
   _NOTE: We will not go into this too deeply for the sake of brevity, however this is a really interesting topic! I would encourage you to look into this more on your own, if you're interested._
 
 * **Your Answer:**
-
+Salt Rounds are the amount of time that bcrypt will update the salt or hashing related to your data.
 ---
 
 - [ ] Right now, users can create new accounts with the same username. Update your code so that before we create a guest, we check to see whether or not a guest already exists with that username. If it does, return an error.
@@ -116,8 +125,8 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** Why is it important to give a non-specific error message as opposed to a message like "Password incorrect?"
 
-* **Your Answer:** 
-
+* **Your Answer:**
+It is better for secruity reasons. If a hacker has say the uername, then they can hack the password to get in.
 ---
 
 - [ ] The above process can be a bit tricky. Take a moment to annotate your code with comments, explaining each step of your code.
@@ -129,6 +138,9 @@ Once installation is working, take a look at the existing code to make sure you 
 * **Question:** In your own words, describe the three parts of a JWT.
 
 * **Your Answer:**
+Header: the meta information, contains the type of tocken
+Payload: Contains all the claims (or types of data)
+Signatures: Verifies that the information is valif or not.
 
 ---
 
@@ -137,14 +149,17 @@ Once installation is working, take a look at the existing code to make sure you 
 * **Question:** Which of our current routes will require us to use the `jsonwebtoken` library? (i.e. When will we be creating or decoding JWTs?)
 
 * **Your Answer:**
+/login
 
 * **Question:** JWTs allow for custom information (i.e. payload) to be returned back to the client. What kind of information do you think would be useful to send back to our client?
 
 * **Your answer:**
+Any kind of validation error. If it was a sucess - show some user informtion such as the id / username / what kind of user that they are.
 
 * **Question:** The custom information (i.e. payload) inside of JWT can be [easily decoded](https://jwt.io/#debugger). What kind of information should we _not_ store inside of a JWT?
 
 * **Your Answer:**
+Don't include password or anything that is private.
 
 ---
 
@@ -159,7 +174,9 @@ Once installation is working, take a look at the existing code to make sure you 
 * **Question:** The `.sign()` method takes three arguments. Describe each argument in your own words, using the above code as an example.
 
 * **Your Answer:**
-
+payload - Which in this case is the guest id.
+options - How long we want the sign in to expire.
+MYSECRETPASSCODE - The signature of the secret passcode
 ---
 
 - [ ] Right now our secret is not so secret. Add a new environment variable to your `nodemon.json` file that stores the secret code. Then, use it in your `auth.js` file. _NOTE: Make sure to restart your server!_
@@ -175,11 +192,12 @@ Once installation is working, take a look at the existing code to make sure you 
 * **Question:** Describe the difference between **authentication** and **authorization**, given the above context.
 
 * **Your Answer:**
+Authenication is checking to see that the JWT exists.   Authorization is what they can do with that JWT.
 
 ---
 
 - [ ] Add the following route to the top of your `auth.js` file. Then, make a request to this route in Postman.
-  
+
   ```js
   router.get('/profile', async (req, res, next) => {
     try {
@@ -188,7 +206,7 @@ Once installation is working, take a look at the existing code to make sure you 
       const guest = await Guest.findOne({ _id: payload.id }).select('-__v -password')
 
       const status = 200
-      res.json({ status, guest })  
+      res.json({ status, guest })
     } catch (e) {
       console.error(e)
       const error = new Error('You are not authorized to access this route.')
@@ -201,7 +219,7 @@ Once installation is working, take a look at the existing code to make sure you 
 * **Question:** What happens? Why?
 
 * **Your Answer:**
-
+We got an error.  We need an auth token in the header.
 ---
 
 - [ ] In order to successfully access this route, we will need to send over the token in the HTTP Authorization Header. The typical way to do this is by sending a [Bearer token](https://security.stackexchange.com/questions/108662/why-is-bearer-required-before-the-token-in-authorization-header-in-a-http-re). To do this in Postman, go to the "Authorization" tab, select "Bearer Token" as the Type, and then enter your token.
@@ -209,6 +227,7 @@ Once installation is working, take a look at the existing code to make sure you 
 * **Question:** What happens? Why?
 
 * **Your Answer:**
+The profile information is returned becuse the token in passed in and authorized.
 
 ---
 
