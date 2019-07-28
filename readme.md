@@ -34,19 +34,23 @@ Once installation is working, take a look at the existing code to make sure you 
 
 ### Instructions & Guiding Questions
 
-- [ ] Take a look at the `db/seeds.js` file.
+- [X] Take a look at the `db/seeds.js` file.
 
 * **Question:** Describe what this code is doing and what its purpose is.
 
 * **Your Answer:** 
 
+Connects to the database, deletes all existing records, creates 2 new records, logs success message to the console, and disconnects from the db
+
 ---
 
-- [ ] Imagine that as a user, you enter your username and password into a site in order to signup.
+- [X] Imagine that as a user, you enter your username and password into a site in order to signup.
 
 * **Question:** What happens next?
 
 * **Your Answer:**
+
+At sign up, your username and password are hashed together and saved on the server/db. If the username already exists, it gives an error and makes you choose another. It may also validate if the password is weak.
 
 ---
 
@@ -56,25 +60,31 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Your Answer:**
 
+The server takes your provided username and password and compares it to what is saved on the system to make sure they match.
+
 ---
 
-- [ ] Imagine that as a logged-in user, you try to go to a route you are not supposed to (e.g. /admin).
+- [X] Imagine that as a logged-in user, you try to go to a route you are not supposed to (e.g. /admin).
 
 * **Question:** How does the website know you are or are not allowed on a specific route?
 
 * **Your Answer:**
 
+One way is to have roles for specific usernames. And allow certain roles to access certain routes.
+
 * **Question:** Describe the difference between authentication and authorization.
 
 * **Your Answer:**
 
----
-
-- [ ] Build a new model called `Guest`. The `Guest` model should have the following fields: `username`, `password`
+Authentication is whether you are allowed in or not (you are who you say you are). Authorization is more toward what you have access to with that account (you're allowed to do what you want to do).
 
 ---
 
-- [ ] Create a new route at `POST /api/signup` at `/api/routes/auth.js`. This route should:
+- [X] Build a new model called `Guest`. The `Guest` model should have the following fields: `username`, `password`
+
+---
+
+- [X] Create a new route at `POST /api/signup` at `/api/routes/auth.js`. This route should:
   1. Create a new `Guest`, pulling `username` and `password` from the request body
   1. Return a success message with the user's information (for now)
 
@@ -82,17 +92,27 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Your Answer:**
 
+We're saving plain text passwords in the database.
+
 * **Question:** What would happen if three different users tried to sign up with the same username? How can we prevent that?
 
 * **Your Answer:**
+
+They could all sign up. There's no checking for unique usernames.
+
+We can prevent it by setting unique: true on the usernames. It will allow only one of each username.
+
+Could also check against existing usernames before accepting.
 
 * **Question:** Why are we making our route `POST /api/signup` as opposed to `POST /api/users`?
 
 * **Your Answer:**
 
+To give an indication it is a different kind of route. We are signing up, not administering a user, for example.
+
 ---
 
-- [ ] We need a way to securely store a password in our database. Install [node.bcrypt.js](https://www.npmjs.com/package/bcrypt), require it in your new routes file, and use the `bcrypt.hash()` method to encrypt the password before storing it. Test your signup process to make sure the password is hashed.
+- [X] We need a way to securely store a password in our database. Install [node.bcrypt.js](https://www.npmjs.com/package/bcrypt), require it in your new routes file, and use the `bcrypt.hash()` method to encrypt the password before storing it. Test your signup process to make sure the password is hashed.
 
   _NOTE 1:_ It is not uncommon for issues to arise while trying to install bcrypt. If you encounter issues during the lesson trying to get it to install, check the [Install via NPM](https://www.npmjs.com/package/bcrypt#install-via-npm) section of the documentation to see if you can find any help. If not, take notes until we move pass bcrypt and we can get it resolved during a break or after class.
 
@@ -104,51 +124,63 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Your Answer:**
 
+Salt rounds invovles how long it would take to hack your password.
+
 ---
 
-- [ ] Right now, users can create new accounts with the same username. Update your code so that before we create a guest, we check to see whether or not a guest already exists with that username. If it does, return an error.
+- [X] Right now, users can create new accounts with the same username. Update your code so that before we create a guest, we check to see whether or not a guest already exists with that username. If it does, return an error.
 
   _NOTE: While it is possible to use the `unique: true` constraint on our model, it requires a bit of extra configuration to get working properly. See the [Advanced](#advanced) section below for more information on how to do this!_
 
 ---
 
-- [ ] Now that we can signup a user, we want them to be able to login to our site. Build a `POST /login` route that expects a username and password in the request body. Use the `bcrypt.compare()` function to compare the incoming plain text password with the hashed password stored in MongoDB. If the username or password is incorrect, return a non-specific error message (e.g. "Login credientials incorrect.") with a status code of 401. If the username and password combination is correct, return a temporary success message (e.g. "You are now logged in") and a status code of 201.
+- [X] Now that we can signup a user, we want them to be able to login to our site. Build a `POST /login` route that expects a username and password in the request body. Use the `bcrypt.compare()` function to compare the incoming plain text password with the hashed password stored in MongoDB. If the username or password is incorrect, return a non-specific error message (e.g. "Login credientials incorrect.") with a status code of 401. If the username and password combination is correct, return a temporary success message (e.g. "You are now logged in") and a status code of 201.
 
 * **Question:** Why is it important to give a non-specific error message as opposed to a message like "Password incorrect?"
 
 * **Your Answer:** 
 
----
-
-- [ ] The above process can be a bit tricky. Take a moment to annotate your code with comments, explaining each step of your code.
+So it isn't easier for a hacker to figure out if the username is the problem or the password is.
 
 ---
 
-- [ ] On subsequent requests to our API, how will we know a user is logged in? We need to provide them with something so that we later know they have indeed successfully logged in. There are a few different strategies for this, but we will be using [JWTs](https://jwt.io/introduction/) (pronounced "jots"). Take a moment to read the section titled "What is the JSON Web Token structure?"
+- [X] The above process can be a bit tricky. Take a moment to annotate your code with comments, explaining each step of your code.
+
+---
+
+- [X] On subsequent requests to our API, how will we know a user is logged in? We need to provide them with something so that we later know they have indeed successfully logged in. There are a few different strategies for this, but we will be using [JWTs](https://jwt.io/introduction/) (pronounced "jots"). Take a moment to read the section titled "What is the JSON Web Token structure?"
 
 * **Question:** In your own words, describe the three parts of a JWT.
 
 * **Your Answer:**
 
+The three parts are the header (type of token and algorithm being used), payload (data you want stored in the JWT), and signature (verifies the JWT is valid/hasn't been changed). 
+
 ---
 
-- [ ] We will implement JWTs using the [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken) package. Install this package and include it at the top of your `auth.js` file.
+- [X] We will implement JWTs using the [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken) package. Install this package and include it at the top of your `auth.js` file.
 
 * **Question:** Which of our current routes will require us to use the `jsonwebtoken` library? (i.e. When will we be creating or decoding JWTs?)
 
 * **Your Answer:**
 
+/login - we want to create it when logging in
+
 * **Question:** JWTs allow for custom information (i.e. payload) to be returned back to the client. What kind of information do you think would be useful to send back to our client?
 
 * **Your answer:**
+
+username, role, user ID
 
 * **Question:** The custom information (i.e. payload) inside of JWT can be [easily decoded](https://jwt.io/#debugger). What kind of information should we _not_ store inside of a JWT?
 
 * **Your Answer:**
 
+The user's password or hash
+
 ---
 
-- [ ] Add the following code to `/login` route and then respond with the token when a user successfully is able to login. _NOTE: In the example below, I assume you've required the package and assigned it to a `jsonwebtoken` variable._
+- [X] Add the following code to `/login` route and then respond with the token when a user successfully is able to login. _NOTE: In the example below, I assume you've required the package and assigned it to a `jsonwebtoken` variable._
 
   ```js
   const payload = { id: guest._id }
@@ -160,25 +192,29 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Your Answer:**
 
----
-
-- [ ] Right now our secret is not so secret. Add a new environment variable to your `nodemon.json` file that stores the secret code. Then, use it in your `auth.js` file. _NOTE: Make sure to restart your server!_
+payload is the user data, then the secret or signature, and the options - when the token will expire
 
 ---
 
-- [ ] Modify the `/signup` route to return a token in place of the user information.
+- [X] Right now our secret is not so secret. Add a new environment variable to your `nodemon.json` file that stores the secret code. Then, use it in your `auth.js` file. _NOTE: Make sure to restart your server!_
 
 ---
 
-- [ ] We are now responding with JWTs when a user is properly **authenticated**. We will use those JWTs to **authorize** whether or not someone is allowed to visit certain routes or gain certain information.
+- [X] Modify the `/signup` route to return a token in place of the user information.
+
+---
+
+- [X] We are now responding with JWTs when a user is properly **authenticated**. We will use those JWTs to **authorize** whether or not someone is allowed to visit certain routes or gain certain information.
 
 * **Question:** Describe the difference between **authentication** and **authorization**, given the above context.
 
 * **Your Answer:**
 
+Authentication is just getting you access to the server. Authorization is what you have permission to access.
+
 ---
 
-- [ ] Add the following route to the top of your `auth.js` file. Then, make a request to this route in Postman.
+- [X] Add the following route to the top of your `auth.js` file. Then, make a request to this route in Postman.
   
   ```js
   router.get('/profile', async (req, res, next) => {
@@ -202,17 +238,21 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Your Answer:**
 
+The request fails. There isn't an authorization header.
+
 ---
 
-- [ ] In order to successfully access this route, we will need to send over the token in the HTTP Authorization Header. The typical way to do this is by sending a [Bearer token](https://security.stackexchange.com/questions/108662/why-is-bearer-required-before-the-token-in-authorization-header-in-a-http-re). To do this in Postman, go to the "Authorization" tab, select "Bearer Token" as the Type, and then enter your token.
+- [X] In order to successfully access this route, we will need to send over the token in the HTTP Authorization Header. The typical way to do this is by sending a [Bearer token](https://security.stackexchange.com/questions/108662/why-is-bearer-required-before-the-token-in-authorization-header-in-a-http-re). To do this in Postman, go to the "Authorization" tab, select "Bearer Token" as the Type, and then enter your token.
 
 * **Question:** What happens? Why?
 
 * **Your Answer:**
 
+I'm able to access the /api/profile route now. The request is authorized now.
+
 ---
 
-- [ ] There is a lot going on in the above code. Take a moment to annotate each line so you are able to confirm your understanding of what is happening.
+- [X] There is a lot going on in the above code. Take a moment to annotate each line so you are able to confirm your understanding of what is happening.
 
 ### Mini-Exercise
 
