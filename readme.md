@@ -161,7 +161,7 @@ Signature => Verifies that secret is included, meaning that it is valid
 
 * **Question:** The `.sign()` method takes three arguments. Describe each argument in your own words, using the above code as an example.
 
-* **Your Answer:**
+* **Your Answer:** The `sign()` method takes in the payload which gives the JWT information like the ID of the guest. It also takes the environment variable `SECRET_KEY` which is defined in our `nodemon.json` file. The last argument is an object containing options for this JWT. In our example we passed an option to have the JWT expire in one day.
 
 ---
 
@@ -177,7 +177,7 @@ Signature => Verifies that secret is included, meaning that it is valid
 
 * **Question:** Describe the difference between **authentication** and **authorization**, given the above context.
 
-* **Your Answer:**
+* **Your Answer:** Authentication means that you are who you say you are and Authorization means that you have permissions to access something. With JWTs when a user is properly authenticated then a JWT is created. The JWT token of the signed in user is then checked to verify whether the guest has authorization to access the route.
 
 ---
 

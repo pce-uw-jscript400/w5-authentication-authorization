@@ -25,7 +25,6 @@ router.get('/profile', async (req, res, next) => {
   }
 })
 
-
 // POST /api/signup
 router.post('/signup', async (req, res, next) => {
   const status = 201
