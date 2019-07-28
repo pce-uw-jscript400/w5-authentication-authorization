@@ -125,7 +125,7 @@ Errors are displayed by console.error and success is console.log then disconnect
 
 * **Your Answer:** 
 
-* 
+* So hackers cannot figure out if the Username or the Password is the correct one.
 
 - [ ] The above process can be a bit tricky. Take a moment to annotate your code with comments, explaining each step of your code.
 
@@ -137,23 +137,25 @@ Errors are displayed by console.error and success is console.log then disconnect
 
 * **Your Answer:**
 
----
+* Header consist type of token and signing algorithm.  Payload has the "claim" which can be the user.  They can be registered, public, or private claims.  Signature: takes the encoded header, payload, and secret the algorithm specified in header, and signs that.
 
 - [ ] We will implement JWTs using the [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken) package. Install this package and include it at the top of your `auth.js` file.
 
 * **Question:** Which of our current routes will require us to use the `jsonwebtoken` library? (i.e. When will we be creating or decoding JWTs?)
 
 * **Your Answer:**
+* I would assume the login and signup.
 
 * **Question:** JWTs allow for custom information (i.e. payload) to be returned back to the client. What kind of information do you think would be useful to send back to our client?
 
 * **Your answer:**
+* Log in time, username, or type of permissions.
 
 * **Question:** The custom information (i.e. payload) inside of JWT can be [easily decoded](https://jwt.io/#debugger). What kind of information should we _not_ store inside of a JWT?
 
 * **Your Answer:**
 
----
+* passwords, or CC # anything useable for identity theft
 
 - [ ] Add the following code to `/login` route and then respond with the token when a user successfully is able to login. _NOTE: In the example below, I assume you've required the package and assigned it to a `jsonwebtoken` variable._
 
@@ -167,7 +169,7 @@ Errors are displayed by console.error and success is console.log then disconnect
 
 * **Your Answer:**
 
----
+* The Payload is the ID of the user either created by the DB or other means, the options can be expiration time or authorization, token or secrect passcode is used to diferentiate you sessions.
 
 - [ ] Right now our secret is not so secret. Add a new environment variable to your `nodemon.json` file that stores the secret code. Then, use it in your `auth.js` file. _NOTE: Make sure to restart your server!_
 
@@ -183,7 +185,7 @@ Errors are displayed by console.error and success is console.log then disconnect
 
 * **Your Answer:**
 
----
+* I think authen still means the same.  If the provided JWT matches the headers the user is thus author to use the site specified in the headers.
 
 - [ ] Add the following route to the top of your `auth.js` file. Then, make a request to this route in Postman.
   
@@ -209,7 +211,7 @@ Errors are displayed by console.error and success is console.log then disconnect
 
 * **Your Answer:**
 
----
+* I am not currently logged in as an authorized user. 
 
 - [ ] In order to successfully access this route, we will need to send over the token in the HTTP Authorization Header. The typical way to do this is by sending a [Bearer token](https://security.stackexchange.com/questions/108662/why-is-bearer-required-before-the-token-in-authorization-header-in-a-http-re). To do this in Postman, go to the "Authorization" tab, select "Bearer Token" as the Type, and then enter your token.
 
@@ -217,7 +219,7 @@ Errors are displayed by console.error and success is console.log then disconnect
 
 * **Your Answer:**
 
----
+* It will show profile that is associated to the token.
 
 - [ ] There is a lot going on in the above code. Take a moment to annotate each line so you are able to confirm your understanding of what is happening.
 

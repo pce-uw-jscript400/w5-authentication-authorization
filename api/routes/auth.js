@@ -40,11 +40,12 @@ router.post('/signup', async (req, res, next) => {
           // If validation fails, throw and error
           if (!isValid) throw new Error('Password is invalid')
 
+          // Create a JWT
           const payload = { id: guest._id } // Setup payload
           const options = { expiresIn: '1 day'}
-          const token = jtw.sign(payload, SECRET_KEY, options)
+          const token = jwt.sign(payload, 'SECRET_KEY', options)
           // If all is well, respond with a success message
-          res.status(status).json({ status, response: `You have been logged in.`})
+          res.status(status).json({ status, token})
       } catch (e){
           console.error(e)
           const error = new Error( `Login credentials incorrect.`)
@@ -56,7 +57,7 @@ router.post('/signup', async (req, res, next) => {
   router.get('/profile', async (req, res, next) => {
     try {
       const token = req.headers.authorization.split('Bearer ')[1]
-      const payload = jsonwebtoken.verify(token, SECRET_KEY)
+      const payload = jwt.verify(token, SECRET_KEY)
       const guest = await Guest.findOne({ _id: payload.id }).select('-__v -password')
 
       const status = 200
