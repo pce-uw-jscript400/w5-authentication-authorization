@@ -18,7 +18,7 @@ app.use(require('body-parser').json())
 // Routes
 app.use('/api/parties', require('./api/routes/parties'))
 
-app.use('/api/signup', require('./api/routes/auth'))
+app.use('/api', require('./api/routes/auth'))
 
 // Not Found Handler
 app.use((req, res, next) => {

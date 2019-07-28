@@ -40,7 +40,8 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Your Answer:** 
 
-
+* The fucntion reset is connecting to the mongoose database and deleting all party "collection" items in the DB.  Then creating the one user Ooooooontz SPICY as an exclusive party member.
+Errors are displayed by console.error and success is console.log then disconnecting from the DB.
 
 - [ ] Imagine that as a user, you enter your username and password into a site in order to signup.
 
@@ -48,7 +49,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Your Answer:**
 
----
+* Your Username and Password is stored in the DB with a unique ID.
 
 - [ ] Imagine that as a user, you are now logging back into that same website. 
 
@@ -56,7 +57,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Your Answer:**
 
----
+* Based on your username the db has a unique id associated with the password you should know.
 
 - [ ] Imagine that as a logged-in user, you try to go to a route you are not supposed to (e.g. /admin).
 
@@ -64,11 +65,13 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Your Answer:**
 
+* Most sites have rules configurations you can use to setup user access rights.
+
 * **Question:** Describe the difference between authentication and authorization.
 
 * **Your Answer:**
 
----
+* Authentication is verifying you the user are the rightful owner of the user accounts.  Authorization is more related to what rights the user account is "authorized" to do on the site.  
 
 - [ ] Build a new model called `Guest`. The `Guest` model should have the following fields: `username`, `password`
 
@@ -82,15 +85,19 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Your Answer:**
 
+* Passwords are not stored with some form of encyptions
+
 * **Question:** What would happen if three different users tried to sign up with the same username? How can we prevent that?
 
 * **Your Answer:**
+
+* In the sign up process you can make validation against the database to check for that specific username before you can sign up.
 
 * **Question:** Why are we making our route `POST /api/signup` as opposed to `POST /api/users`?
 
 * **Your Answer:**
 
----
+*  Signup allows for better router intuitiveness.  If you're new to the site it mores more sense to have a signup route then a users route.   
 
 - [ ] We need a way to securely store a password in our database. Install [node.bcrypt.js](https://www.npmjs.com/package/bcrypt), require it in your new routes file, and use the `bcrypt.hash()` method to encrypt the password before storing it. Test your signup process to make sure the password is hashed.
 
@@ -104,7 +111,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Your Answer:**
 
----
+* Its the time a password encryption will take to generate.
 
 - [ ] Right now, users can create new accounts with the same username. Update your code so that before we create a guest, we check to see whether or not a guest already exists with that username. If it does, return an error.
 
@@ -118,7 +125,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Your Answer:** 
 
----
+* 
 
 - [ ] The above process can be a bit tricky. Take a moment to annotate your code with comments, explaining each step of your code.
 

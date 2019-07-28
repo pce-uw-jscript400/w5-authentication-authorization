@@ -3,15 +3,16 @@ const jwt = require('jsonwebtoken')
 const Guest = require('../models/guest')
 const bcrypt = require('bcrypt')
 
-const { SECRET_KEY } = precess.env
+const { SECRET_KEY } = process.env
 
-router.post('/', async (req, res, next) => {
+router.post('/signup', async (req, res, next) => {
     const status = 201
     try{
         const { username, password } = req.body
+        const guest = await Guest.findOne({username})
+        if (guest) throw new Error(`User ${username} already exists.`)
         const saltRounds = 10
         const hashedPassword = await bcrypt.hash(password, saltRounds)
-    
         const response = await Guest.create({
             username,
             password: hashedPassword
