@@ -38,7 +38,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** Describe what this code is doing and what its purpose is.
 
-* **Your Answer:** 
+* **Your Answer:** `deleteMany()` is called on the Party collection. This will delete all of the documents that are part of the Party collection. Once deleted, two new documents of Party are created.
 
 ---
 
@@ -46,15 +46,15 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** What happens next?
 
-* **Your Answer:**
+* **Your Answer:** It'll first check whether the username is exists. Then it'll validate whether the password meets requirements. Then encrypts password then saves that information in the database.
 
 ---
 
-- [ ] Imagine that as a user, you are now logging back into that same website. 
+- [ ] Imagine that as a user, you are now logging back into that same website.
 
 * **Question:** How does the website verify that you are indeed the same user?
 
-* **Your Answer:**
+* **Your Answer:** It'll read the username and then compare the password.
 
 ---
 
@@ -62,11 +62,11 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** How does the website know you are or are not allowed on a specific route?
 
-* **Your Answer:**
+* **Your Answer:** The website knows the permissions that this user has.
 
 * **Question:** Describe the difference between authentication and authorization.
 
-* **Your Answer:**
+* **Your Answer:** Authentication is you are who you say you are. Authorization is you're allowed to do what you want to do.
 
 ---
 
@@ -80,15 +80,15 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** This code is currently _very_ insecure. Why?
 
-* **Your Answer:**
+* **Your Answer:** The code is insecure because we are returning the users username and password with each successful request.
 
 * **Question:** What would happen if three different users tried to sign up with the same username? How can we prevent that?
 
-* **Your Answer:**
+* **Your Answer:** With our current code that is possible. We could iterate through all users and if username exists and if so throw an error.
 
 * **Question:** Why are we making our route `POST /api/signup` as opposed to `POST /api/users`?
 
-* **Your Answer:**
+* **Your Answer:** Signup is more descriptive and terminology commonly used for auth. API users infers more of an admin creating users.
 
 ---
 
@@ -102,7 +102,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
   _NOTE: We will not go into this too deeply for the sake of brevity, however this is a really interesting topic! I would encourage you to look into this more on your own, if you're interested._
 
-* **Your Answer:**
+* **Your Answer:** Salt rounds will set a number or rounds that will be used to hash the password.
 
 ---
 
@@ -116,7 +116,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** Why is it important to give a non-specific error message as opposed to a message like "Password incorrect?"
 
-* **Your Answer:** 
+* **Your Answer:** It's important because we want to keep that error message internal.
 
 ---
 
@@ -129,6 +129,9 @@ Once installation is working, take a look at the existing code to make sure you 
 * **Question:** In your own words, describe the three parts of a JWT.
 
 * **Your Answer:**
+Header => Similar to metadata, info on the request, includes type and signing
+Payload => Contains statements about user and additional data
+Signature => Verifies that secret is included, meaning that it is valid
 
 ---
 
@@ -136,15 +139,15 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** Which of our current routes will require us to use the `jsonwebtoken` library? (i.e. When will we be creating or decoding JWTs?)
 
-* **Your Answer:**
+* **Your Answer:** We will be creating JWTs after a user successfully logs in.
 
 * **Question:** JWTs allow for custom information (i.e. payload) to be returned back to the client. What kind of information do you think would be useful to send back to our client?
 
-* **Your answer:**
+* **Your answer:** Information that we want to return to the client include the user's information like an ID, username or name, permissions or settings.
 
 * **Question:** The custom information (i.e. payload) inside of JWT can be [easily decoded](https://jwt.io/#debugger). What kind of information should we _not_ store inside of a JWT?
 
-* **Your Answer:**
+* **Your Answer:** We should not store the password, private information like credit card information.
 
 ---
 
@@ -158,7 +161,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** The `.sign()` method takes three arguments. Describe each argument in your own words, using the above code as an example.
 
-* **Your Answer:**
+* **Your Answer:** The `sign()` method takes in the payload which gives the JWT information like the ID of the guest. It also takes the environment variable `SECRET_KEY` which is defined in our `nodemon.json` file. The last argument is an object containing options for this JWT. In our example we passed an option to have the JWT expire in one day.
 
 ---
 
@@ -174,12 +177,12 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** Describe the difference between **authentication** and **authorization**, given the above context.
 
-* **Your Answer:**
+* **Your Answer:** Authentication means that you are who you say you are and Authorization means that you have permissions to access something. With JWTs when a user is properly authenticated then a JWT is created. The JWT token of the signed in user is then checked to verify whether the guest has authorization to access the route.
 
 ---
 
 - [ ] Add the following route to the top of your `auth.js` file. Then, make a request to this route in Postman.
-  
+
   ```js
   router.get('/profile', async (req, res, next) => {
     try {
@@ -188,7 +191,7 @@ Once installation is working, take a look at the existing code to make sure you 
       const guest = await Guest.findOne({ _id: payload.id }).select('-__v -password')
 
       const status = 200
-      res.json({ status, guest })  
+      res.json({ status, guest })
     } catch (e) {
       console.error(e)
       const error = new Error('You are not authorized to access this route.')
@@ -200,7 +203,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** What happens? Why?
 
-* **Your Answer:**
+* **Your Answer:** We get an error message that we are not authorized. That is because we made the request without the token.
 
 ---
 
@@ -208,7 +211,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** What happens? Why?
 
-* **Your Answer:**
+* **Your Answer:** By doing this we are able to get authorization because the token is validated.
 
 ---
 
