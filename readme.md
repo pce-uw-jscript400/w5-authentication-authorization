@@ -40,7 +40,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Your Answer:**
 
-## deletes all current records and creates 2 new ones and also resets the database.
+## delete all current records and creates 2 new ones and also resets the database.
 
 - [ ] Imagine that as a user, you enter your username and password into a site in order to signup.
 
