@@ -54,7 +54,7 @@ At sign up, your username and password are hashed together and saved on the serv
 
 ---
 
-- [ ] Imagine that as a user, you are now logging back into that same website. 
+- [X] Imagine that as a user, you are now logging back into that same website. 
 
 * **Question:** How does the website verify that you are indeed the same user?
 
