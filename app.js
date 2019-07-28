@@ -5,7 +5,7 @@ const app = express()
 
 // Database Connection
 if (MONGO_DB_CONNECTION) {
-  mongoose.connect(MONGO_DB_CONNECTION, { useNewUrlParser: true })
+  mongoose.connect(MONGO_DB_CONNECTION, { useNewUrlParser: true, useCreateIndex: true })
   console.log('Connected to database...')
 } else {
   console.log('Could not connect to database!')
@@ -17,6 +17,7 @@ app.use(require('body-parser').json())
 
 // Routes
 app.use('/api/parties', require('./api/routes/parties'))
+app.use('/api', require('./api/routes/auth'))
 
 // Not Found Handler
 app.use((req, res, next) => {
