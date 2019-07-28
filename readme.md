@@ -4,15 +4,15 @@ By the end of this lesson, you should be able to authorize your routes with JWTs
 
 ## Core Learning Objective
 
-*	Implement a basic authentication setup using JSON web tokens
+- Implement a basic authentication setup using JSON web tokens
 
 ## Sub-Objectives
 
-* Describe the authentication process
-* Store passwords with bcrypt
-* Create signin and login routes that return JWTs
-* Describe the difference between authentication and authorizations
-* Authorize certain routes and information
+- Describe the authentication process
+- Store passwords with bcrypt
+- Create signin and login routes that return JWTs
+- Describe the difference between authentication and authorizations
+- Authorize certain routes and information
 
 ## Installation
 
@@ -38,9 +38,9 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** Describe what this code is doing and what its purpose is.
 
-* **Your Answer:** 
+* **Your Answer:**
 
----
+---Connects to the database - Reset function is trying to delete all the records and create two records - when it is successful, it logs a success message and disconnects database
 
 - [ ] Imagine that as a user, you enter your username and password into a site in order to signup.
 
@@ -48,25 +48,26 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Your Answer:**
 
----
+--- Username and password is checked if they are in valid format - user should not exist already - After validating, a new record is created in users db - password is hashed while storing in db
 
-- [ ] Imagine that as a user, you are now logging back into that same website. 
+- [ ] Imagine that as a user, you are now logging back into that same website.
 
 * **Question:** How does the website verify that you are indeed the same user?
 
 * **Your Answer:**
 
----
+---username is checked if it exists in users table - the entered password should match the (decoded) password in db
 
 - [ ] Imagine that as a logged-in user, you try to go to a route you are not supposed to (e.g. /admin).
 
 * **Question:** How does the website know you are or are not allowed on a specific route?
 
-* **Your Answer:**
+* **Your Answer:**Based on set of permissions or user roles
 
 * **Question:** Describe the difference between authentication and authorization.
 
-* **Your Answer:**
+* **Your Answer:**Authentication is verifying who you are
+  Authorization are related to rules what you are allowed to do.
 
 ---
 
@@ -80,17 +81,17 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** This code is currently _very_ insecure. Why?
 
-* **Your Answer:**
+* **Your Answer:**Does not validate the username or password - does not ensure uniqueness of username
 
 * **Question:** What would happen if three different users tried to sign up with the same username? How can we prevent that?
 
-* **Your Answer:**
+* **Your Answer:**Duplicate users will be created - check against the existing users - if not found then create and save a new user with username
 
 * **Question:** Why are we making our route `POST /api/signup` as opposed to `POST /api/users`?
 
 * **Your Answer:**
 
----
+---signup indicates creating new user - users routes would return list of users or updating them
 
 - [ ] We need a way to securely store a password in our database. Install [node.bcrypt.js](https://www.npmjs.com/package/bcrypt), require it in your new routes file, and use the `bcrypt.hash()` method to encrypt the password before storing it. Test your signup process to make sure the password is hashed.
 
@@ -104,7 +105,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Your Answer:**
 
----
+---how much time/complexity is needed to calculate a single BCrypt hash - The salt is a random value, and should differ for each calculation, so the result should hardly ever be the same, even for equal passwords.
 
 - [ ] Right now, users can create new accounts with the same username. Update your code so that before we create a guest, we check to see whether or not a guest already exists with that username. If it does, return an error.
 
@@ -116,9 +117,9 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** Why is it important to give a non-specific error message as opposed to a message like "Password incorrect?"
 
-* **Your Answer:** 
+* **Your Answer:**
 
----
+---Very specific error message would make it easier for hacker to see which part of credential is incorrect
 
 - [ ] The above process can be a bit tricky. Take a moment to annotate your code with comments, explaining each step of your code.
 
@@ -132,35 +133,41 @@ Once installation is working, take a look at the existing code to make sure you 
 
 ---
 
+Header - contains type of token and signing algorithm being used
+Payload - contains claims which are data about an entity- 3 types of claims are registered, public, private
+Signature - To create the signature part you have to take the encoded header, the encoded payload, a secret, the algorithm specified in the header, and sign that.
+
 - [ ] We will implement JWTs using the [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken) package. Install this package and include it at the top of your `auth.js` file.
 
 * **Question:** Which of our current routes will require us to use the `jsonwebtoken` library? (i.e. When will we be creating or decoding JWTs?)
 
-* **Your Answer:**
+* **Your Answer:**login route would generate jwt and use it to validate authorization for other routes
 
 * **Question:** JWTs allow for custom information (i.e. payload) to be returned back to the client. What kind of information do you think would be useful to send back to our client?
 
-* **Your answer:**
+* **Your answer:**username, expiration date
 
 * **Question:** The custom information (i.e. payload) inside of JWT can be [easily decoded](https://jwt.io/#debugger). What kind of information should we _not_ store inside of a JWT?
 
 * **Your Answer:**
 
----
+--- sensitive information like credit card numbers, password
 
 - [ ] Add the following code to `/login` route and then respond with the token when a user successfully is able to login. _NOTE: In the example below, I assume you've required the package and assigned it to a `jsonwebtoken` variable._
 
   ```js
-  const payload = { id: guest._id }
-  const options = { expiresIn: '1 day' }
-  const token = jsonwebtoken.sign(payload, 'MYSECRETPASSCODE', options)
+  const payload = { id: guest._id };
+  const options = { expiresIn: "1 day" };
+  const token = jsonwebtoken.sign(payload, "MYSECRETPASSCODE", options);
   ```
 
 * **Question:** The `.sign()` method takes three arguments. Describe each argument in your own words, using the above code as an example.
 
 * **Your Answer:**
 
----
+--- payload is record specific info - for which token is generated
+secret key - it is a secret phrase used to signt he token - while verifying, jwt uses the same phrase to decrypt and verify
+options - additional specs for token like expiration
 
 - [ ] Right now our secret is not so secret. Add a new environment variable to your `nodemon.json` file that stores the secret code. Then, use it in your `auth.js` file. _NOTE: Make sure to restart your server!_
 
@@ -175,34 +182,36 @@ Once installation is working, take a look at the existing code to make sure you 
 * **Question:** Describe the difference between **authentication** and **authorization**, given the above context.
 
 * **Your Answer:**
-
----
+  --- Authentication is verifying if the user is who he claims to be
+  Authorization is verifying if the user has access to particular information
 
 - [ ] Add the following route to the top of your `auth.js` file. Then, make a request to this route in Postman.
-  
-  ```js
-  router.get('/profile', async (req, res, next) => {
-    try {
-      const token = req.headers.authorization.split('Bearer ')[1]
-      const payload = jsonwebtoken.verify(token, SECRET_KEY)
-      const guest = await Guest.findOne({ _id: payload.id }).select('-__v -password')
 
-      const status = 200
-      res.json({ status, guest })  
+  ```js
+  router.get("/profile", async (req, res, next) => {
+    try {
+      const token = req.headers.authorization.split("Bearer ")[1];
+      const payload = jsonwebtoken.verify(token, SECRET_KEY);
+      const guest = await Guest.findOne({ _id: payload.id }).select(
+        "-__v -password"
+      );
+
+      const status = 200;
+      res.json({ status, guest });
     } catch (e) {
-      console.error(e)
-      const error = new Error('You are not authorized to access this route.')
-      error.status = 401
-      next(error)
+      console.error(e);
+      const error = new Error("You are not authorized to access this route.");
+      error.status = 401;
+      next(error);
     }
-  })
+  });
   ```
 
 * **Question:** What happens? Why?
 
 * **Your Answer:**
 
----
+--- JWT is validated first - if the user sending the request is authorized then guest profile is shown - the user can see his own profile only if the user exists - else send an error message - the request fails without auth headers
 
 - [ ] In order to successfully access this route, we will need to send over the token in the HTTP Authorization Header. The typical way to do this is by sending a [Bearer token](https://security.stackexchange.com/questions/108662/why-is-bearer-required-before-the-token-in-authorization-header-in-a-http-re). To do this in Postman, go to the "Authorization" tab, select "Bearer Token" as the Type, and then enter your token.
 
@@ -210,7 +219,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Your Answer:**
 
----
+---With valid bearer token, the user can access his existing profile
 
 - [ ] There is a lot going on in the above code. Take a moment to annotate each line so you are able to confirm your understanding of what is happening.
 
@@ -245,8 +254,9 @@ If you want to build a new [index](https://docs.mongodb.com/manual/indexes/), yo
 1. Connect to your database using the `use <database-name>` command
 
 1. Run the following:
-  ```
-  db.guests.createIndex({ "username": 1}, { unique: true })
-  ```
+
+```
+db.guests.createIndex({ "username": 1}, { unique: true })
+```
 
 1. Type `exit` to leave the shell
