@@ -4,15 +4,15 @@ By the end of this lesson, you should be able to authorize your routes with JWTs
 
 ## Core Learning Objective
 
-*	Implement a basic authentication setup using JSON web tokens
+- Implement a basic authentication setup using JSON web tokens
 
 ## Sub-Objectives
 
-* Describe the authentication process
-* Store passwords with bcrypt
-* Create signin and login routes that return JWTs
-* Describe the difference between authentication and authorizations
-* Authorize certain routes and information
+- Describe the authentication process
+- Store passwords with bcrypt
+- Create signin and login routes that return JWTs
+- Describe the difference between authentication and authorizations
+- Authorize certain routes and information
 
 ## Installation
 
@@ -38,7 +38,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** Describe what this code is doing and what its purpose is.
 
-* **Your Answer:** 
+* **Your Answer:**
 
 ---
 
@@ -48,13 +48,21 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Your Answer:**
 
+- Checks to make sure that you entered a valid username and password.
+- Checks to make sure that the username is available to sign up with.
+- Saves an encrypted record of the account information in the DB.
+- Sets a cookie for returning users.
+
 ---
 
-- [ ] Imagine that as a user, you are now logging back into that same website. 
+- [ ] Imagine that as a user, you are now logging back into that same website.
 
 * **Question:** How does the website verify that you are indeed the same user?
 
 * **Your Answer:**
+
+- Reads to make sure the username exists and is correct
+- Reads the password to make sure that is correct
 
 ---
 
@@ -64,9 +72,14 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Your Answer:**
 
+- Checks to make sure you have the correct permissions set on your account to access.
+
 * **Question:** Describe the difference between authentication and authorization.
 
 * **Your Answer:**
+
+- Authentication is checking to make sure you are who you say you are.
+- Authorization permits a user to do what they want to do.
 
 ---
 
@@ -80,15 +93,15 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** This code is currently _very_ insecure. Why?
 
-* **Your Answer:**
+* **Your Answer:** It's not encypted and the account information is just available.
 
 * **Question:** What would happen if three different users tried to sign up with the same username? How can we prevent that?
 
-* **Your Answer:**
+* **Your Answer:** They would be able to all sign up. We need to add some sort of check to see if a user document/record already exists.
 
 * **Question:** Why are we making our route `POST /api/signup` as opposed to `POST /api/users`?
 
-* **Your Answer:**
+* **Your Answer:** We could potentially use `POST /api/users` to query information about users. In designing a well organized API, using `POST /api/signup` route indicates that is acutally used for a very specific thing, in this case, sign up.
 
 ---
 
@@ -102,7 +115,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
   _NOTE: We will not go into this too deeply for the sake of brevity, however this is a really interesting topic! I would encourage you to look into this more on your own, if you're interested._
 
-* **Your Answer:**
+* **Your Answer:** `saltRounds` incrementally encrypts your data via timestamps.
 
 ---
 
@@ -116,7 +129,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** Why is it important to give a non-specific error message as opposed to a message like "Password incorrect?"
 
-* **Your Answer:** 
+* **Your Answer:** If we were to give a more specific message, it could be used by an attacker to keep attempting to access sensitive information.
 
 ---
 
@@ -130,17 +143,19 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Your Answer:**
 
+### Come back and answer this later. At a high level, it is a JSON object that allows for safe and secure transfer of information between parties. It's encryption can be configured.
+
 ---
 
 - [ ] We will implement JWTs using the [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken) package. Install this package and include it at the top of your `auth.js` file.
 
 * **Question:** Which of our current routes will require us to use the `jsonwebtoken` library? (i.e. When will we be creating or decoding JWTs?)
 
-* **Your Answer:**
+* **Your Answer:** We will need to use this on the `/signup` and `/login` routes.
 
 * **Question:** JWTs allow for custom information (i.e. payload) to be returned back to the client. What kind of information do you think would be useful to send back to our client?
 
-* **Your answer:**
+* **Your answer:** User information like ID, username, settings, permissions.
 
 * **Question:** The custom information (i.e. payload) inside of JWT can be [easily decoded](https://jwt.io/#debugger). What kind of information should we _not_ store inside of a JWT?
 
@@ -151,9 +166,9 @@ Once installation is working, take a look at the existing code to make sure you 
 - [ ] Add the following code to `/login` route and then respond with the token when a user successfully is able to login. _NOTE: In the example below, I assume you've required the package and assigned it to a `jsonwebtoken` variable._
 
   ```js
-  const payload = { id: guest._id }
-  const options = { expiresIn: '1 day' }
-  const token = jsonwebtoken.sign(payload, 'MYSECRETPASSCODE', options)
+  const payload = { id: guest._id };
+  const options = { expiresIn: "1 day" };
+  const token = jsonwebtoken.sign(payload, "MYSECRETPASSCODE", options);
   ```
 
 * **Question:** The `.sign()` method takes three arguments. Describe each argument in your own words, using the above code as an example.
@@ -179,23 +194,25 @@ Once installation is working, take a look at the existing code to make sure you 
 ---
 
 - [ ] Add the following route to the top of your `auth.js` file. Then, make a request to this route in Postman.
-  
-  ```js
-  router.get('/profile', async (req, res, next) => {
-    try {
-      const token = req.headers.authorization.split('Bearer ')[1]
-      const payload = jsonwebtoken.verify(token, SECRET_KEY)
-      const guest = await Guest.findOne({ _id: payload.id }).select('-__v -password')
 
-      const status = 200
-      res.json({ status, guest })  
+  ```js
+  router.get("/profile", async (req, res, next) => {
+    try {
+      const token = req.headers.authorization.split("Bearer ")[1];
+      const payload = jsonwebtoken.verify(token, SECRET_KEY);
+      const guest = await Guest.findOne({ _id: payload.id }).select(
+        "-__v -password"
+      );
+
+      const status = 200;
+      res.json({ status, guest });
     } catch (e) {
-      console.error(e)
-      const error = new Error('You are not authorized to access this route.')
-      error.status = 401
-      next(error)
+      console.error(e);
+      const error = new Error("You are not authorized to access this route.");
+      error.status = 401;
+      next(error);
     }
-  })
+  });
   ```
 
 * **Question:** What happens? Why?
@@ -245,8 +262,9 @@ If you want to build a new [index](https://docs.mongodb.com/manual/indexes/), yo
 1. Connect to your database using the `use <database-name>` command
 
 1. Run the following:
-  ```
-  db.guests.createIndex({ "username": 1}, { unique: true })
-  ```
+
+```
+db.guests.createIndex({ "username": 1}, { unique: true })
+```
 
 1. Type `exit` to leave the shell
