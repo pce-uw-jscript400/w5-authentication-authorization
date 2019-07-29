@@ -38,7 +38,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** Describe what this code is doing and what its purpose is.
 
-* **Your Answer:** 
+* **Your Answer: calls deleteMany() wich clears out the db then it creates two new db entries.  Purpose is to just have clean data to work with and get rid of any old test material
 
 ---
 
@@ -46,7 +46,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** What happens next?
 
-* **Your Answer:**
+* **Your Answer: the server verifys that you have an account and that the credentials that you provided are correct and then you are given access at the role level your are authorized
 
 ---
 
@@ -54,7 +54,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** How does the website verify that you are indeed the same user?
 
-* **Your Answer:**
+* **Your Answer: only based on the fact of you having the correct credentials, if someone else has your credentials it does not know it is you only that the person entering the credentials have the correct credential
 
 ---
 
@@ -62,11 +62,11 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** How does the website know you are or are not allowed on a specific route?
 
-* **Your Answer:**
+* **Your Answer: most have role based authorization, based on the credentials you provide you are given a token, the server then checks the token to see if it has access to the resource you are trying to access
 
 * **Question:** Describe the difference between authentication and authorization.
 
-* **Your Answer:**
+* **Your Answer: authentication is providing credentials to prove you are who you say you are.  authorization is based on your authentication what resources you are allowed to access
 
 ---
 
@@ -80,15 +80,15 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** This code is currently _very_ insecure. Why?
 
-* **Your Answer:**
+* **Your Answer: the username and password is being sent as part of an unencrypted json file. 
 
 * **Question:** What would happen if three different users tried to sign up with the same username? How can we prevent that?
 
-* **Your Answer:**
+* **Your Answer: three entries would be created, with the same username and three different passwords, each with a different id.  set a unique value requirement, that would not allow the same username to be repeated in subsequent data rows
 
 * **Question:** Why are we making our route `POST /api/signup` as opposed to `POST /api/users`?
 
-* **Your Answer:**
+* **Your Answer: it goes to different models and different databases - it also allows for future development in a clearer way, haveing a seperate sign up from users allows us to do more with users.
 
 ---
 
@@ -102,7 +102,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
   _NOTE: We will not go into this too deeply for the sake of brevity, however this is a really interesting topic! I would encourage you to look into this more on your own, if you're interested._
 
-* **Your Answer:**
+* **Your Answer: the number of times a password is ran through a salting and hashing, the more rounds the longer the time and more calculations are being performed, but also the more secure the password is.
 
 ---
 
@@ -116,7 +116,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** Why is it important to give a non-specific error message as opposed to a message like "Password incorrect?"
 
-* **Your Answer:** 
+* **Your Answer: it gives hackers answers.  if you get a general message, they do not know if the username or the password was incorrect, if you say password incorrect then, they know what the user name is, cutting down the work to hack a system.
 
 ---
 
@@ -128,7 +128,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** In your own words, describe the three parts of a JWT.
 
-* **Your Answer:**
+* **Your Answer: Header, Payload, Signature:  The header contains the type of token (such as JWT) and the signing hash algorithm being used.  This is to let the receiving server know how to handle the token.  The payload is the claims.  Claims is the way which defines how applications get the identity information about a user.  There are several differnt Claims methods. Registered, Public and Private.  Finally there is the Signatue, which takes the endcoded header, the encoded payload and a secret to develop the hash, by checking this on the server side if the hash match you can expect the message has not been modified and the person making the identitiy claim is who they are.
 
 ---
 
@@ -136,15 +136,15 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** Which of our current routes will require us to use the `jsonwebtoken` library? (i.e. When will we be creating or decoding JWTs?)
 
-* **Your Answer:**
+* **Your Answer: the login route so that the token can be used to to verify requestor
 
 * **Question:** JWTs allow for custom information (i.e. payload) to be returned back to the client. What kind of information do you think would be useful to send back to our client?
 
-* **Your answer:**
+* **Your answer: User name can be used for other js tasks, the expiration of the token, permissions of user settings
 
 * **Question:** The custom information (i.e. payload) inside of JWT can be [easily decoded](https://jwt.io/#debugger). What kind of information should we _not_ store inside of a JWT?
 
-* **Your Answer:**
+* **Your Answer: password, or other sensitive information that can be captured and used by hackers
 
 ---
 
@@ -158,7 +158,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** The `.sign()` method takes three arguments. Describe each argument in your own words, using the above code as an example.
 
-* **Your Answer:**
+* **Your Answer: basically this creates the token that is sent out.  the payload is the JWT header information and payload , the second is the passcode the secret no one should know, the third are the options sucn as expiration, algorithm used, access timeframe who issued the token, id, ect...
 
 ---
 
@@ -174,7 +174,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** Describe the difference between **authentication** and **authorization**, given the above context.
 
-* **Your Answer:**
+* **Your Answer: authenticated is when the user passes the correct credentials within the token to verify who they are.  The result is authorization or permission to access a given resource.
 
 ---
 
@@ -200,7 +200,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** What happens? Why?
 
-* **Your Answer:**
+* **Your Answer: The error message is returned and no access is granted, because the authorization token was not passed
 
 ---
 
@@ -208,7 +208,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** What happens? Why?
 
-* **Your Answer:**
+* **Your Answer:by adding the token, the route model is able to use the claims made in the token to authorize the user and grant access
 
 ---
 
