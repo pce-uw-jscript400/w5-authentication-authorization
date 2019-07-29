@@ -38,7 +38,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** Describe what this code is doing and what its purpose is.
 
-* **Your Answer:** 
+* **Your Answer:** The code in the seeds.js file is to clear existing data from your database and create new seed data to work with.
 
 ---
 
@@ -46,15 +46,15 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** What happens next?
 
-* **Your Answer:**
+* **Your Answer:** After the form is submitted, check to see if the username entered is already existing. Encrypt the password into some sort of password encryption.
 
 ---
 
-- [ ] Imagine that as a user, you are now logging back into that same website. 
+- [ ] Imagine that as a user, you are now logging back into that same website.
 
 * **Question:** How does the website verify that you are indeed the same user?
 
-* **Your Answer:**
+* **Your Answer:** It checks to see if your username and password that you entered matches a username and password saved inside the database. If it matches, then you are logged in.
 
 ---
 
@@ -62,11 +62,11 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** How does the website know you are or are not allowed on a specific route?
 
-* **Your Answer:**
+* **Your Answer:** If you are not allowed to see certain routes, you will be prompted with a status code of 401 and some sort of "Unauthorized" message. The website will know if you are allowed or not based on a token created at login.
 
 * **Question:** Describe the difference between authentication and authorization.
 
-* **Your Answer:**
+* **Your Answer:** Authentication is you are who you say you are. Authorization is you are allowed to do what you want to do.
 
 ---
 
@@ -80,15 +80,15 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** This code is currently _very_ insecure. Why?
 
-* **Your Answer:**
+* **Your Answer:** Cause you aren't validating the username and not encrypting the password before creating the document in the database.
 
 * **Question:** What would happen if three different users tried to sign up with the same username? How can we prevent that?
 
-* **Your Answer:**
+* **Your Answer:** Each of the three users would be able to login because the username they are using exists in the database. We can prevent this from happening at signup, by checking to see if the entered username already exists in the database, if it does, then tell the user to enter a different username before saving their account credentials in the database.
 
 * **Question:** Why are we making our route `POST /api/signup` as opposed to `POST /api/users`?
 
-* **Your Answer:**
+* **Your Answer:** `/api/signup` will be used to later on to return a token, whereas the `/api/users` could be a route that an admin user could make POST request to create additional users.
 
 ---
 
@@ -102,7 +102,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
   _NOTE: We will not go into this too deeply for the sake of brevity, however this is a really interesting topic! I would encourage you to look into this more on your own, if you're interested._
 
-* **Your Answer:**
+* **Your Answer:** `saltRounds` is the power multiplier for the number of rounds the password will get processed and hashed to make it secure. For example if saltRounds = 10, the processing iteration would be `2^10`.
 
 ---
 
@@ -116,7 +116,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** Why is it important to give a non-specific error message as opposed to a message like "Password incorrect?"
 
-* **Your Answer:** 
+* **Your Answer:** So that it's not so easy for unauthorized users to try and guess correct username and passwords. Giving them a non-specific error message could mean that either their username or password could be incorrect. Makes it harder for unauthorized users to get in.
 
 ---
 
@@ -128,7 +128,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** In your own words, describe the three parts of a JWT.
 
-* **Your Answer:**
+* **Your Answer:** Header - This is the meta data for the token, it includes the type of hashing method we are going to use. Payload - This is the meat of the token, which includes information about the user that are not sensitive. Items like subject, username, id  and expiration time of the token. Signature -  The signature is the combination of the hashed header, payload and the secret word from our server. This is what allows the server to determine if the user is allowed to access certain content.
 
 ---
 
@@ -136,15 +136,15 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** Which of our current routes will require us to use the `jsonwebtoken` library? (i.e. When will we be creating or decoding JWTs?)
 
-* **Your Answer:**
+* **Your Answer:** Both our login and signup will need the `jsonwebtoken` library.
 
 * **Question:** JWTs allow for custom information (i.e. payload) to be returned back to the client. What kind of information do you think would be useful to send back to our client?
 
-* **Your answer:**
+* **Your answer:** User specific information like their user_id or username. Expiration dates and type of account(admin, general user) they have.
 
 * **Question:** The custom information (i.e. payload) inside of JWT can be [easily decoded](https://jwt.io/#debugger). What kind of information should we _not_ store inside of a JWT?
 
-* **Your Answer:**
+* **Your Answer:** Credit card information, social security, address, phone, or any sensitive user information should not be part of the payload.
 
 ---
 
@@ -158,7 +158,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** The `.sign()` method takes three arguments. Describe each argument in your own words, using the above code as an example.
 
-* **Your Answer:**
+* **Your Answer:** `payload` argument is the users information object. `MYSECREDTPASSCODE` is the string that you specified in your server(saved in the nodemon.json file). `options` is the additional options that you want the token to have like how long it will be valid before it expires.
 
 ---
 
@@ -174,12 +174,12 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** Describe the difference between **authentication** and **authorization**, given the above context.
 
-* **Your Answer:**
+* **Your Answer:** `authentication` - this is when the user is logged in and a token is returned from the server. `authorization` - this is when the token sent from the request is verified using the .verify() method passing in both the token and the secret_key.
 
 ---
 
 - [ ] Add the following route to the top of your `auth.js` file. Then, make a request to this route in Postman.
-  
+
   ```js
   router.get('/profile', async (req, res, next) => {
     try {
@@ -200,7 +200,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** What happens? Why?
 
-* **Your Answer:**
+* **Your Answer:** We get the error message `You are not authorized to access this route.` because we have not passed in the token using the `Bearer Token` authorization header in Postman.
 
 ---
 
@@ -208,7 +208,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** What happens? Why?
 
-* **Your Answer:**
+* **Your Answer:** If we pass in the token through Postmans `Bearer Token` header, we will then be able to access the route and see the status code 200 as well as our username in the response body.
 
 ---
 
