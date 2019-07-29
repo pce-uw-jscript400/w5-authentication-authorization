@@ -38,7 +38,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** Describe what this code is doing and what its purpose is.
 
-* **Your Answer:** 
+* **Your Answer:** Connects to MongoDB and then deletes all Party objects of the database.
 
 ---
 
@@ -46,7 +46,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** What happens next?
 
-* **Your Answer:**
+* **Your Answer:** It compares the username and password to what is saved in the database and blocks the user if it doesn't match 
 
 ---
 
@@ -54,7 +54,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** How does the website verify that you are indeed the same user?
 
-* **Your Answer:**
+* **Your Answer:** It checks to see if you have permission to the selected route.
 
 ---
 
@@ -62,11 +62,11 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** How does the website know you are or are not allowed on a specific route?
 
-* **Your Answer:**
+* **Your Answer:** User's permissions
 
 * **Question:** Describe the difference between authentication and authorization.
 
-* **Your Answer:**
+* **Your Answer:** Who you are vs. what you are allowed to do
 
 ---
 
@@ -80,15 +80,15 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** This code is currently _very_ insecure. Why?
 
-* **Your Answer:**
+* **Your Answer:** The password has no encryption.
 
 * **Question:** What would happen if three different users tried to sign up with the same username? How can we prevent that?
 
-* **Your Answer:**
+* **Your Answer:** It would work, because only the ID is unique. You can prevent it by throwing an error if it matches an existing username.
 
 * **Question:** Why are we making our route `POST /api/signup` as opposed to `POST /api/users`?
 
-* **Your Answer:**
+* **Your Answer:** We aren't modifying a user, so it is a different type of action.
 
 ---
 
@@ -102,7 +102,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
   _NOTE: We will not go into this too deeply for the sake of brevity, however this is a really interesting topic! I would encourage you to look into this more on your own, if you're interested._
 
-* **Your Answer:**
+* **Your Answer:** It increases the time it takes to calculate the hashed value.
 
 ---
 
@@ -116,7 +116,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** Why is it important to give a non-specific error message as opposed to a message like "Password incorrect?"
 
-* **Your Answer:** 
+* **Your Answer:** You don't want someone to know they put in the correct username.
 
 ---
 
@@ -128,7 +128,9 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** In your own words, describe the three parts of a JWT.
 
-* **Your Answer:**
+* **Your Answer:** Header: token and signing algorithm
+Payload: Holds claims (user information)
+Signature: Verifies the message hasn't been changed
 
 ---
 
@@ -136,15 +138,15 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** Which of our current routes will require us to use the `jsonwebtoken` library? (i.e. When will we be creating or decoding JWTs?)
 
-* **Your Answer:**
+* **Your Answer:** /login
 
 * **Question:** JWTs allow for custom information (i.e. payload) to be returned back to the client. What kind of information do you think would be useful to send back to our client?
 
-* **Your answer:**
+* **Your answer:** username or other data that could afford to be decoded
 
 * **Question:** The custom information (i.e. payload) inside of JWT can be [easily decoded](https://jwt.io/#debugger). What kind of information should we _not_ store inside of a JWT?
 
-* **Your Answer:**
+* **Your Answer:** passwords, SSN, etc.
 
 ---
 
@@ -158,7 +160,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** The `.sign()` method takes three arguments. Describe each argument in your own words, using the above code as an example.
 
-* **Your Answer:**
+* **Your Answer:** The payload, secret for signing, and options like expiration date
 
 ---
 
@@ -174,7 +176,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** Describe the difference between **authentication** and **authorization**, given the above context.
 
-* **Your Answer:**
+* **Your Answer:** Authenticating is when users get a JWT. Authorizing is when we get the JWT back from the user and verify it.
 
 ---
 
@@ -200,7 +202,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** What happens? Why?
 
-* **Your Answer:**
+* **Your Answer:** 401 Unauthorized
 
 ---
 
@@ -208,7 +210,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** What happens? Why?
 
-* **Your Answer:**
+* **Your Answer:** We get the user data because we added the JWT to the authorization header
 
 ---
 
