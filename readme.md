@@ -39,15 +39,15 @@ Once installation is working, take a look at the existing code to make sure you 
 * **Question:** Describe what this code is doing and what its purpose is.
 
 * **Your Answer:** 
-
+ - Delete all of the documents that are part of the party collection and recreate two more.  Basically resets your data.
 ---
 
-- [ ] Imagine that as a user, you enter your username and password into a site in order to signup.
+- [ ] Imagine that as a user, you enter your username and password into a site in order to signup.  Take the username and see if it already exists.  Have a validation check on password + use encryption.
 
 * **Question:** What happens next?
 
 * **Your Answer:**
-
+ - Checks to see if a username is used or is a duplicate.
 ---
 
 - [ ] Imagine that as a user, you are now logging back into that same website. 
@@ -55,7 +55,7 @@ Once installation is working, take a look at the existing code to make sure you 
 * **Question:** How does the website verify that you are indeed the same user?
 
 * **Your Answer:**
-
+Through a token process, and if the token has expired, then a username / password is required again.
 ---
 
 - [ ] Imagine that as a logged-in user, you try to go to a route you are not supposed to (e.g. /admin).
@@ -63,11 +63,12 @@ Once installation is working, take a look at the existing code to make sure you 
 * **Question:** How does the website know you are or are not allowed on a specific route?
 
 * **Your Answer:**
+Authorization and restrictions on the routes based on roles is ideal.
 
 * **Question:** Describe the difference between authentication and authorization.
 
 * **Your Answer:**
-
+Authorization is where can you go, what can you access.  Authentication is logging in, getting a token, you are who you say you are.
 ---
 
 - [ ] Build a new model called `Guest`. The `Guest` model should have the following fields: `username`, `password`
@@ -78,17 +79,20 @@ Once installation is working, take a look at the existing code to make sure you 
   1. Create a new `Guest`, pulling `username` and `password` from the request body
   1. Return a success message with the user's information (for now)
 
-* **Question:** This code is currently _very_ insecure. Why?
+* **Question:** This code is currently _very_ insecure. Why
 
 * **Your Answer:**
+Password is stored in plaintext.  Sent in plaintext.
 
 * **Question:** What would happen if three different users tried to sign up with the same username? How can we prevent that?
 
 * **Your Answer:**
+Currently, if they did sign up at the same time, they would just overwrite eachother.  The last person to set their password would "win".  To prevent, check for duplicates.
 
 * **Question:** Why are we making our route `POST /api/signup` as opposed to `POST /api/users`?
 
 * **Your Answer:**
+A seperate route to create new users, and sign up the users and validate if they are duplicate.  The post /api/users is for other user operations maybe query existing users or add a new user.
 
 ---
 
@@ -103,6 +107,8 @@ Once installation is working, take a look at the existing code to make sure you 
   _NOTE: We will not go into this too deeply for the sake of brevity, however this is a really interesting topic! I would encourage you to look into this more on your own, if you're interested._
 
 * **Your Answer:**
+Saltrounds are how many rounds it goes through to give you a secure hash.  Increasing the salt rounds increases the amount of time required to cause a delay if someone is trying to guess / brute force in.  
+
 
 ---
 
@@ -117,7 +123,7 @@ Once installation is working, take a look at the existing code to make sure you 
 * **Question:** Why is it important to give a non-specific error message as opposed to a message like "Password incorrect?"
 
 * **Your Answer:** 
-
+You want to make sure users do not know they are correctly guessing a valid e-mail address..
 ---
 
 - [ ] The above process can be a bit tricky. Take a moment to annotate your code with comments, explaining each step of your code.
@@ -129,7 +135,7 @@ Once installation is working, take a look at the existing code to make sure you 
 * **Question:** In your own words, describe the three parts of a JWT.
 
 * **Your Answer:**
-
+Header - algorithm and type of token., Payload - Claims. Data passed through JSON object, and Signature - You take the header, payload, base64 the values and sign them to ensure they are not tampered with, 
 ---
 
 - [ ] We will implement JWTs using the [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken) package. Install this package and include it at the top of your `auth.js` file.
@@ -138,14 +144,17 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Your Answer:**
 
+/login route
+
 * **Question:** JWTs allow for custom information (i.e. payload) to be returned back to the client. What kind of information do you think would be useful to send back to our client?
 
 * **Your answer:**
+Limit to role and what they can do, and then use other requests.  How long they have been logged in.  ID of use.  Unique information.  Username / Name.
 
 * **Question:** The custom information (i.e. payload) inside of JWT can be [easily decoded](https://jwt.io/#debugger). What kind of information should we _not_ store inside of a JWT?
 
 * **Your Answer:**
-
+Personally identifiable information. e.g stuff you don't want to share.  Little as possible.  
 ---
 
 - [ ] Add the following code to `/login` route and then respond with the token when a user successfully is able to login. _NOTE: In the example below, I assume you've required the package and assigned it to a `jsonwebtoken` variable._
@@ -160,9 +169,12 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Your Answer:**
 
+This signs the payload of the token, uses a passcode as a hash.  Signature way it signs the JWT token.
 ---
 
 - [ ] Right now our secret is not so secret. Add a new environment variable to your `nodemon.json` file that stores the secret code. Then, use it in your `auth.js` file. _NOTE: Make sure to restart your server!_
+
+Okay!
 
 ---
 

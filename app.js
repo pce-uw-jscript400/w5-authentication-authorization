@@ -16,6 +16,9 @@ if (NODE_ENV === 'development') app.use(require('morgan')('dev'))
 app.use(require('body-parser').json())
 
 // Routes
+app.use('/api', require('./api/routes/auth'))
+app.use('/api', require('./api/routes/auth'))
+
 app.use('/api/parties', require('./api/routes/parties'))
 
 // Not Found Handler
