@@ -14,6 +14,8 @@ router.post('/signup', async(req, res, next) => {
         if (guest) throw new Error('Already user')
             // create hashed passsword
         const hashedPassword = await bcrypt.hash(password, saltRounds)
+            //create user entry
+        guest = await Guest.create({ username, password: hashedPassword })
             // set up token details to create login for newly created user
         const payload = { id: guest._id }
         const options = { expiresIn: '1 day' }
