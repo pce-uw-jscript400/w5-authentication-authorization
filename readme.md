@@ -37,7 +37,7 @@ Once installation is working, take a look at the existing code to make sure you 
 - [ ] Take a look at the `db/seeds.js` file.
 
 * **Question:** Describe what this code is doing and what its purpose is.
-
+Removes exisiting data, creates in inital file in the database
 * **Your Answer:** 
 
 ---
@@ -47,15 +47,15 @@ Once installation is working, take a look at the existing code to make sure you 
 * **Question:** What happens next?
 
 * **Your Answer:**
-
+username is checked for uniqueness; entry is create in a database, assocaited with a password.
 ---
 
 - [ ] Imagine that as a user, you are now logging back into that same website. 
 
 * **Question:** How does the website verify that you are indeed the same user?
-
+ 
 * **Your Answer:**
-
+username and password are checked to match
 ---
 
 - [ ] Imagine that as a logged-in user, you try to go to a route you are not supposed to (e.g. /admin).
@@ -63,14 +63,16 @@ Once installation is working, take a look at the existing code to make sure you 
 * **Question:** How does the website know you are or are not allowed on a specific route?
 
 * **Your Answer:**
+check user authorisations vs route-specific permissions
 
 * **Question:** Describe the difference between authentication and authorization.
 
 * **Your Answer:**
-
+Authenticaiton is who you are, authorization is what you're allowed to do
 ---
 
 - [ ] Build a new model called `Guest`. The `Guest` model should have the following fields: `username`, `password`
+
 
 ---
 
@@ -81,15 +83,15 @@ Once installation is working, take a look at the existing code to make sure you 
 * **Question:** This code is currently _very_ insecure. Why?
 
 * **Your Answer:**
-
+the password sent in plaintext and stored in plaintext
 * **Question:** What would happen if three different users tried to sign up with the same username? How can we prevent that?
 
 * **Your Answer:**
-
+load users, see if it exists using array.includes() on userlists
 * **Question:** Why are we making our route `POST /api/signup` as opposed to `POST /api/users`?
 
 * **Your Answer:**
-
+to explain the function of the route to the user
 ---
 
 - [ ] We need a way to securely store a password in our database. Install [node.bcrypt.js](https://www.npmjs.com/package/bcrypt), require it in your new routes file, and use the `bcrypt.hash()` method to encrypt the password before storing it. Test your signup process to make sure the password is hashed.
@@ -103,7 +105,7 @@ Once installation is working, take a look at the existing code to make sure you 
   _NOTE: We will not go into this too deeply for the sake of brevity, however this is a really interesting topic! I would encourage you to look into this more on your own, if you're interested._
 
 * **Your Answer:**
-
+The higher the number, the more the password is hashed, as expressed logarithmically 
 ---
 
 - [ ] Right now, users can create new accounts with the same username. Update your code so that before we create a guest, we check to see whether or not a guest already exists with that username. If it does, return an error.
@@ -117,6 +119,7 @@ Once installation is working, take a look at the existing code to make sure you 
 * **Question:** Why is it important to give a non-specific error message as opposed to a message like "Password incorrect?"
 
 * **Your Answer:** 
+Confirming the username is correct could allow for further attacks via brute force or social engineering
 
 ---
 
@@ -129,7 +132,7 @@ Once installation is working, take a look at the existing code to make sure you 
 * **Question:** In your own words, describe the three parts of a JWT.
 
 * **Your Answer:**
-
+The header describes what the token is, the payload describes the user, the signature verifies the token is correct
 ---
 
 - [ ] We will implement JWTs using the [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken) package. Install this package and include it at the top of your `auth.js` file.
@@ -137,15 +140,17 @@ Once installation is working, take a look at the existing code to make sure you 
 * **Question:** Which of our current routes will require us to use the `jsonwebtoken` library? (i.e. When will we be creating or decoding JWTs?)
 
 * **Your Answer:**
+/parties and /exclusive
 
 * **Question:** JWTs allow for custom information (i.e. payload) to be returned back to the client. What kind of information do you think would be useful to send back to our client?
 
 * **Your answer:**
+how old the token is, the current userId
 
 * **Question:** The custom information (i.e. payload) inside of JWT can be [easily decoded](https://jwt.io/#debugger). What kind of information should we _not_ store inside of a JWT?
 
 * **Your Answer:**
-
+Plaintext password, location of secret treasure, grandmother's rhubarb pie recipie. 
 ---
 
 - [ ] Add the following code to `/login` route and then respond with the token when a user successfully is able to login. _NOTE: In the example below, I assume you've required the package and assigned it to a `jsonwebtoken` variable._
@@ -159,7 +164,7 @@ Once installation is working, take a look at the existing code to make sure you 
 * **Question:** The `.sign()` method takes three arguments. Describe each argument in your own words, using the above code as an example.
 
 * **Your Answer:**
-
+the payload is any information we want to return to the key. The private key is used to encrupt the token, and the option provides things like encoding and expiration
 ---
 
 - [ ] Right now our secret is not so secret. Add a new environment variable to your `nodemon.json` file that stores the secret code. Then, use it in your `auth.js` file. _NOTE: Make sure to restart your server!_
@@ -175,7 +180,7 @@ Once installation is working, take a look at the existing code to make sure you 
 * **Question:** Describe the difference between **authentication** and **authorization**, given the above context.
 
 * **Your Answer:**
-
+Authenticaiton generates the token, authorisation will use the token to unlock the routes for the user
 ---
 
 - [ ] Add the following route to the top of your `auth.js` file. Then, make a request to this route in Postman.
@@ -201,7 +206,8 @@ Once installation is working, take a look at the existing code to make sure you 
 * **Question:** What happens? Why?
 
 * **Your Answer:**
-
+Not authorised
+postman isn't returning a token to the server
 ---
 
 - [ ] In order to successfully access this route, we will need to send over the token in the HTTP Authorization Header. The typical way to do this is by sending a [Bearer token](https://security.stackexchange.com/questions/108662/why-is-bearer-required-before-the-token-in-authorization-header-in-a-http-re). To do this in Postman, go to the "Authorization" tab, select "Bearer Token" as the Type, and then enter your token.
@@ -209,6 +215,7 @@ Once installation is working, take a look at the existing code to make sure you 
 * **Question:** What happens? Why?
 
 * **Your Answer:**
+shows guest information, as the token matches
 
 ---
 
