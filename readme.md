@@ -40,6 +40,8 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Your Answer:** 
 
+It's deleting records from the database and then creating two new records.
+
 ---
 
 - [ ] Imagine that as a user, you enter your username and password into a site in order to signup.
@@ -47,6 +49,8 @@ Once installation is working, take a look at the existing code to make sure you 
 * **Question:** What happens next?
 
 * **Your Answer:**
+
+The site checks to see if the username is already in use and hopefully encryts the password. If the username is available, a new account is created.
 
 ---
 
@@ -56,6 +60,8 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Your Answer:**
 
+The site checks if the username exists and if it does, if the password is the correct password.
+
 ---
 
 - [ ] Imagine that as a logged-in user, you try to go to a route you are not supposed to (e.g. /admin).
@@ -64,9 +70,13 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Your Answer:**
 
+It depends on how it is set up but a system can be setup to give different users different roles which then allow access to different routes.
+
 * **Question:** Describe the difference between authentication and authorization.
 
 * **Your Answer:**
+
+Authentication is the process of verifying a user and authorization is what that user can access.
 
 ---
 
@@ -82,13 +92,19 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Your Answer:**
 
+The password is being displayed so anyone can see it.
+
 * **Question:** What would happen if three different users tried to sign up with the same username? How can we prevent that?
 
 * **Your Answer:**
 
+At the moment, all three could signup. Need to create a way of making sure that a username is unique.
+
 * **Question:** Why are we making our route `POST /api/signup` as opposed to `POST /api/users`?
 
 * **Your Answer:**
+
+A signup route would indicate signing up a new user while a users route would like provide a list of users.
 
 ---
 
@@ -104,6 +120,8 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Your Answer:**
 
+Saltrounds are used for creating a hash. The rounds there are the more complex it becomes and the more time it takes to create.
+
 ---
 
 - [ ] Right now, users can create new accounts with the same username. Update your code so that before we create a guest, we check to see whether or not a guest already exists with that username. If it does, return an error.
@@ -118,6 +136,8 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Your Answer:** 
 
+It's a security issue that can potentially tip off a hacker.
+
 ---
 
 - [ ] The above process can be a bit tricky. Take a moment to annotate your code with comments, explaining each step of your code.
@@ -130,6 +150,14 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Your Answer:**
 
+Header: contains type: `typ` which is JWT and algorithm: `alg` which is the algorithm being used. Basically tells you what it is.
+Payload: information you want stored in a token.
+  contains three claims: 
+    registered claims
+    public claims
+    private claims
+Signature: verifies that the data hasn't been changed or altered.
+
 ---
 
 - [ ] We will implement JWTs using the [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken) package. Install this package and include it at the top of your `auth.js` file.
@@ -138,13 +166,20 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Your Answer:**
 
+`/api/signup`
+`/api/login`
+
 * **Question:** JWTs allow for custom information (i.e. payload) to be returned back to the client. What kind of information do you think would be useful to send back to our client?
 
 * **Your answer:**
 
+How long logged in, how long they should stay logged in, some user information such as id, username or name, permissions or settings.
+
 * **Question:** The custom information (i.e. payload) inside of JWT can be [easily decoded](https://jwt.io/#debugger). What kind of information should we _not_ store inside of a JWT?
 
 * **Your Answer:**
+
+Shouldn't store the password for the user or any PII.
 
 ---
 
@@ -159,6 +194,11 @@ Once installation is working, take a look at the existing code to make sure you 
 * **Question:** The `.sign()` method takes three arguments. Describe each argument in your own words, using the above code as an example.
 
 * **Your Answer:**
+
+payload: information on the user.
+secretkey: key to decrypt the jsonwebtoken
+options: allows for additional arguments like expiration. 
+
 
 ---
 
@@ -175,6 +215,8 @@ Once installation is working, take a look at the existing code to make sure you 
 * **Question:** Describe the difference between **authentication** and **authorization**, given the above context.
 
 * **Your Answer:**
+
+authentication verifies the user while authorization ensures whether a user is allowed access.
 
 ---
 
@@ -202,6 +244,8 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Your Answer:**
 
+Got a 401 status and a message saying that we are not authorized to access the route.
+
 ---
 
 - [ ] In order to successfully access this route, we will need to send over the token in the HTTP Authorization Header. The typical way to do this is by sending a [Bearer token](https://security.stackexchange.com/questions/108662/why-is-bearer-required-before-the-token-in-authorization-header-in-a-http-re). To do this in Postman, go to the "Authorization" tab, select "Bearer Token" as the Type, and then enter your token.
@@ -209,6 +253,8 @@ Once installation is working, take a look at the existing code to make sure you 
 * **Question:** What happens? Why?
 
 * **Your Answer:**
+
+With a valid bearer token can access a user profile.
 
 ---
 
