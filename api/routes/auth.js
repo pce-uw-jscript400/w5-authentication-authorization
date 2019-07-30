@@ -11,11 +11,13 @@ const generateToken = (id) => {
 }
 
 
+//TODO: why is this 404 not found now???
 router.get('/profile', async (req, res, next) => {
     try {
       const token = req.headers.authorization.split('Bearer ')[1]
       const payload = jsonwebtoken.verify(token, SECRET_KEY)
       const guest = await Guest.findOne({ _id: payload.id }).select('-__v -password')
+      console.log('token', token);
 
       const status = 200
       res.json({ status, guest })  
