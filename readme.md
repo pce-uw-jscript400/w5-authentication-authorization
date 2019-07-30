@@ -38,7 +38,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** Describe what this code is doing and what its purpose is.
 
-* **Your Answer:** 
+* **Your Answer:** The code includes a function that will connect to the MongoDB in your `env` file and deletes all documents in the db. Once that async function completes, it seeds the db with two new Party documents and disconnects from the database.
 
 ---
 
@@ -46,7 +46,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** What happens next?
 
-* **Your Answer:**
+* **Your Answer:** Check if the username has been used and check the password to make sure it passes any validation requirements. The server would save credentials to a db with a create POST call. 
 
 ---
 
@@ -54,19 +54,19 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** How does the website verify that you are indeed the same user?
 
-* **Your Answer:**
+* **Your Answer:** You would pass credentials to the server, the server would authenticate the request by validating the user/password combination. If successful, the server would return an auth token that the user would use with any additional requests so the server knows that the request should be accepted for any routes requiring you to be logged in.
 
 ---
 
 - [ ] Imagine that as a logged-in user, you try to go to a route you are not supposed to (e.g. /admin).
 
-* **Question:** How does the website know you are or are not allowed on a specific route?
+* **Question:** How does the website know you are or are not allowed on a specific route? 
 
-* **Your Answer:**
+* **Your Answer:** The user would have to be assigned certain permissions to allow or restrict access to particular routes. 
 
 * **Question:** Describe the difference between authentication and authorization.
 
-* **Your Answer:**
+* **Your Answer:** Authentication is verifying you are who you say you are and Authorization is allowing you to do what you want to do. 
 
 ---
 
@@ -80,15 +80,15 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** This code is currently _very_ insecure. Why?
 
-* **Your Answer:**
+* **Your Answer:** We are sending unencrypted data in the body of the request and storing unencrypted passwords.
 
 * **Question:** What would happen if three different users tried to sign up with the same username? How can we prevent that?
 
-* **Your Answer:**
+* **Your Answer:** It would allow it as the automatically assigned ID is the only unique identifier. We'd have to validate that the username does not exist before creating the document.
 
 * **Question:** Why are we making our route `POST /api/signup` as opposed to `POST /api/users`?
 
-* **Your Answer:**
+* **Your Answer:** It is a more logical expression of the action we are doing, not just the data said route would return or what that data represents. 
 
 ---
 
@@ -102,7 +102,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
   _NOTE: We will not go into this too deeply for the sake of brevity, however this is a really interesting topic! I would encourage you to look into this more on your own, if you're interested._
 
-* **Your Answer:**
+* **Your Answer:** Salt rounds are a exponent based value for determining how much time is required to decrypt a hash at a factor of 2 to the `saltRounds` power. This is an added security feature to prevent brute force attacks.
 
 ---
 
@@ -116,7 +116,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** Why is it important to give a non-specific error message as opposed to a message like "Password incorrect?"
 
-* **Your Answer:** 
+* **Your Answer:** Because the action is actually validated two fields, not just one. It is entirely possible the user entered the correct password, but entered their username incorrectly. The error message should point out that there was an issue with the combination of credentials used.
 
 ---
 
@@ -128,7 +128,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** In your own words, describe the three parts of a JWT.
 
-* **Your Answer:**
+* **Your Answer:** A JWT contains a Header, Payload, and Signature. The **header**, similar to headers passed with API requests, contains information about the token and usually consists of the type and algorithm used on the token. The **payload** contains data about the user passed with the token. This payload can contain any information, but it should not be sensitive data unless encrypted as it can be read by anyone. The **signature** is used to ensure that the data is coming from an authentic source. 
 
 ---
 
@@ -136,29 +136,29 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** Which of our current routes will require us to use the `jsonwebtoken` library? (i.e. When will we be creating or decoding JWTs?)
 
-* **Your Answer:**
+* **Your Answer:** The login route should use this. 
 
 * **Question:** JWTs allow for custom information (i.e. payload) to be returned back to the client. What kind of information do you think would be useful to send back to our client?
 
-* **Your answer:**
+* **Your answer:** Perhaps permission level or a user ID. Really any non-sensitive user information. 
 
 * **Question:** The custom information (i.e. payload) inside of JWT can be [easily decoded](https://jwt.io/#debugger). What kind of information should we _not_ store inside of a JWT?
 
-* **Your Answer:**
+* **Your Answer:** Any personally identifiable information, usernames or passwords, credit card numbers, etc. 
 
 ---
 
 - [ ] Add the following code to `/login` route and then respond with the token when a user successfully is able to login. _NOTE: In the example below, I assume you've required the package and assigned it to a `jsonwebtoken` variable._
 
   ```js
-  const payload = { id: guest._id }
-  const options = { expiresIn: '1 day' }
-  const token = jsonwebtoken.sign(payload, 'MYSECRETPASSCODE', options)
+  const payload = { id: guest._id } // establishes payload
+  const options = { expiresIn: '1 day' } // sets expiration through options object
+  const token = jsonwebtoken.sign(payload, 'MYSECRETPASSCODE', options) //
   ```
 
 * **Question:** The `.sign()` method takes three arguments. Describe each argument in your own words, using the above code as an example.
 
-* **Your Answer:**
+* **Your Answer:** The payload argument consists of the object defining the payload portion of the JWT. The second argument is the secret key for authenticating the signature. The third options argument allows you to set values for a set pre-defined claims within the jsonwebtoken package for the JWT. 
 
 ---
 
@@ -174,7 +174,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** Describe the difference between **authentication** and **authorization**, given the above context.
 
-* **Your Answer:**
+* **Your Answer:** Authentication in this case means that the username/password combination was validated and as a result the user was returned a JWT to signal that the user is indeed who they said they are. The JWT would contain payload information about the user (e.g. user ID) or their permissions which would be utilized to determine whether or not the user is allowed to access a specified route. 
 
 ---
 
@@ -200,7 +200,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** What happens? Why?
 
-* **Your Answer:**
+* **Your Answer:** We get a status 401 and the message that we are not authorized to access this route. We can't access the route because we are not passing the JWT to the route to validate our authorization to the route. 
 
 ---
 
@@ -208,7 +208,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** What happens? Why?
 
-* **Your Answer:**
+* **Your Answer:** We are returned status 200 and our username and id. We can now access because our authorization has been confirmed via the JWT. 
 
 ---
 
