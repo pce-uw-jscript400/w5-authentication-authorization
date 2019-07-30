@@ -6,10 +6,14 @@ const {SECRET_KEY} = process.env
 
 router.get('/profile', async (req, res, next) => {
   try {
+    // get the token from the authorization header.
     const token = req.headers.authorization.split('Bearer ')[1]
+    // Validate the JWT
     const payload = jsonwebtoken.verify(token, SECRET_KEY)
+    // query the db for the user with the ID passed in the payload.
     const guest = await Guest.findOne({ _id: payload.id }).select('-__v -password')
 
+    // If successful, return users information. 
     const status = 200
     res.json({ status, guest })  
   } catch (e) {
@@ -52,7 +56,6 @@ router.post('/login', async (req, res, next) => {
     const options = { expiresIn: '1 day' }
     const token = jsonwebtoken.sign(payload, SECRET_KEY, options)
 
-    
     const validated = bcrypt.compare(password, user.password)
     if (!validated) throw new Error(`Password incorrect`)
 
