@@ -4,6 +4,8 @@ const config = require('../nodemon.json')
 
 const reset = async () => {
   mongoose.connect(config.env.MONGO_DB_CONNECTION, { useNewUrlParser: true })
+  // Careful with .remove() -- it sends a command directly to the database
+  // and skips any mongoose validations
   await Party.deleteMany() // Deletes all records
   return await Party.create([
     { name: 'Oooooontz' },
