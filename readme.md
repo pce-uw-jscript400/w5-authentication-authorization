@@ -40,6 +40,8 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Your Answer:** 
 
+`seeds.js` connects to mongoose, deletes all records (all documents that are part of the collection), and creates a party named Oooooontz and SPICY, as seed values, and creates records. This file resets your data to a known starting state after you experiment.
+
 ---
 
 - [ ] Imagine that as a user, you enter your username and password into a site in order to signup.
@@ -47,6 +49,16 @@ Once installation is working, take a look at the existing code to make sure you 
 * **Question:** What happens next?
 
 * **Your Answer:**
+
+1. The site checks whether the username exists, and sends error message if so.
+
+2. Does a validation (regex) check on the password.
+
+3. Encrypts the password such as with SHA1 and stores the username and encrypted password in the database.
+
+4. Saves any related data in the database, such as starting state.
+
+5. Possibly logs you in.
 
 ---
 
@@ -56,6 +68,10 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Your Answer:**
 
+The site runs an authentication check, a lookup (READ).  
+The password is compared.
+Then an authorization check.
+
 ---
 
 - [ ] Imagine that as a logged-in user, you try to go to a route you are not supposed to (e.g. /admin).
@@ -64,9 +80,16 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Your Answer:**
 
+The server needs user permissions.  That could be a setting in the db, such as a list of which accounts are admins.
+
+
 * **Question:** Describe the difference between authentication and authorization.
 
 * **Your Answer:**
+
+An authentication check confirms that you are the user you claim to be.  "You are who you say you are."
+
+An authorization check confirms that your account has been granted access to the requested resource.  Checks that "you are allowed to do what you want to do."
 
 ---
 
@@ -82,13 +105,27 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Your Answer:**
 
+The password is sent in plaintext, unencrypted, which can be intercepted and read.
+
+The username and password are packaged together, conveniently for a hacker.
+
+
 * **Question:** What would happen if three different users tried to sign up with the same username? How can we prevent that?
 
 * **Your Answer:**
 
+Search the database to see if the username exists, and if so, send message to the user to require the user to create a different username.
+
+
 * **Question:** Why are we making our route `POST /api/signup` as opposed to `POST /api/users`?
 
 * **Your Answer:**
+
+The user needs to first signin or signup before accessing the `users` information.
+
+users is queryable via CRUD routes, and doesn't suggest initial signup.
+
+signup uses the right domain terminology.
 
 ---
 
@@ -104,6 +141,11 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Your Answer:**
 
+`npm install bcrypt` ran sucessfully.
+
+`saltRounds` is a seed to encrypt the password as a hashed version of the password, and is defined such as: `const saltRounds = 10;`
+`saltRounds` is used to generate a random value.  It sets how long to take to compute a bcrypt hash, to do more or fewer hashing rounds, to make a brute-force attack harder.
+
 ---
 
 - [ ] Right now, users can create new accounts with the same username. Update your code so that before we create a guest, we check to see whether or not a guest already exists with that username. If it does, return an error.
@@ -118,6 +160,8 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Your Answer:** 
 
+Don't give attackers any hint of what kind of problem occurred.
+
 ---
 
 - [ ] The above process can be a bit tricky. Take a moment to annotate your code with comments, explaining each step of your code.
@@ -130,6 +174,31 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Your Answer:**
 
+A JSON Web Token (JWT) is like a cookie, but is stateless, and can be stored in various areas such as a mobile device.
+
+* Header - Specifies the *type of the token*, which is JWT, and the *signing algorithm* being used, such as HMAC SHA256 or RSA.
+The header specifies meta-information about the token.  For example:
+
+```
+{
+  "alg": "HS256",
+  "typ": "JWT"
+}
+```
+
+* Payload - contains the data that's stored in the token. Includes registered claims, public claims, and private claims. For example:
+
+```
+{
+  "sub": "1234567890",
+  "name": "John Doe",
+  "admin": true
+}
+```
+
+* Signature - You take the encoded header, the encoded payload, a secret, and the algorithm specified in the header, and sign that.
+The secret is the new part that is added here.
+
 ---
 
 - [ ] We will implement JWTs using the [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken) package. Install this package and include it at the top of your `auth.js` file.
@@ -138,13 +207,27 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Your Answer:**
 
+* POST /login
+* POST /signup
+
+
 * **Question:** JWTs allow for custom information (i.e. payload) to be returned back to the client. What kind of information do you think would be useful to send back to our client?
 
 * **Your answer:**
 
+Some information that could be useful to send back to the client:
+
+* What user is logged in (User ID).
+* Username.
+* Permissions.
+* Expiration date.
+
+
 * **Question:** The custom information (i.e. payload) inside of JWT can be [easily decoded](https://jwt.io/#debugger). What kind of information should we _not_ store inside of a JWT?
 
 * **Your Answer:**
+
+Don't send the plaintext password, any addresses, or credit-card numbers.
 
 ---
 
@@ -160,6 +243,8 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Your Answer:**
 
+TODO
+
 ---
 
 - [ ] Right now our secret is not so secret. Add a new environment variable to your `nodemon.json` file that stores the secret code. Then, use it in your `auth.js` file. _NOTE: Make sure to restart your server!_
@@ -168,6 +253,9 @@ Once installation is working, take a look at the existing code to make sure you 
 
 - [ ] Modify the `/signup` route to return a token in place of the user information.
 
+TODO
+
+
 ---
 
 - [ ] We are now responding with JWTs when a user is properly **authenticated**. We will use those JWTs to **authorize** whether or not someone is allowed to visit certain routes or gain certain information.
@@ -175,6 +263,9 @@ Once installation is working, take a look at the existing code to make sure you 
 * **Question:** Describe the difference between **authentication** and **authorization**, given the above context.
 
 * **Your Answer:**
+
+TODO
+
 
 ---
 
@@ -202,6 +293,18 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Your Answer:**
 
+The following is returned:
+
+```
+{
+    "status": 401,
+    "message": "You are not authorized to access this route."
+}
+```
+
+That is returned because we need to use bcrypt.  TODO: check class recording.
+
+
 ---
 
 - [ ] In order to successfully access this route, we will need to send over the token in the HTTP Authorization Header. The typical way to do this is by sending a [Bearer token](https://security.stackexchange.com/questions/108662/why-is-bearer-required-before-the-token-in-authorization-header-in-a-http-re). To do this in Postman, go to the "Authorization" tab, select "Bearer Token" as the Type, and then enter your token.
@@ -209,6 +312,9 @@ Once installation is working, take a look at the existing code to make sure you 
 * **Question:** What happens? Why?
 
 * **Your Answer:**
+
+TODO
+
 
 ---
 
@@ -218,17 +324,28 @@ Once installation is working, take a look at the existing code to make sure you 
 
 Our final step is to **authorize** users to view certain routes or information. With a partner, complete the following:
 
-1. Using route-level middleware, protect the `GET /api/parties/exclusive` route. If a user provides a token, they are able to see all of the exclusive parties. If not, return a 401 Unauthorized message.
+1. Using route-level middleware, protect the `GET /api/parties/exclusive` route. If a user provides a token, they are able to see all of the exclusive parties. If not, return a 401 Unauthorized message.  (See week 2 or 3 solution branches, at validate middleware between the route.)
+
+TODO
+
 
 1. In the `GET /api/parties` route, return all parties if a user is authorized. Otherwise, return only those parties where `exclusive: false`.
 
+TODO
+
+
 1. In the `GET /api/parties/:id` route, return the party if the user is authorized. If the user is not authorized, only return the party if it is _not_ exclusive. Otherwise, return a 401 Unauthorized message.
+
+TODO
+
 
 ### Advanced
 
 #### Building a New Index
 
 If you want to build a new [index](https://docs.mongodb.com/manual/indexes/), you will have to connect directly to MongoDB using your command line due to the fact that we are using a free tier from MongoDB Atlas. It's not too hard!
+
+TODO
 
 1. From the "Overview" tab on your MongoDB cluster, click the "Connect" button.
 
