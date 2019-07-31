@@ -38,7 +38,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** Describe what this code is doing and what its purpose is.
 
-* **Your Answer:**
+* **Your Answer:** This is giving us some dummy data to start working with versus having to manually create collections of documents every time we start a new app.
 
 ---
 
@@ -70,9 +70,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** How does the website know you are or are not allowed on a specific route?
 
-* **Your Answer:**
-
-- Checks to make sure you have the correct permissions set on your account to access.
+* **Your Answer:** Checks to make sure you have the correct permissions set on your account to access.
 
 * **Question:** Describe the difference between authentication and authorization.
 
@@ -143,7 +141,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Your Answer:**
 
-### Come back and answer this later. At a high level, it is a JSON object that allows for safe and secure transfer of information between parties. It's encryption can be configured.
+At a high level, it is a JSON object that allows for safe and secure transfer of information between parties. It's encryption can be configured.
 
 ---
 
@@ -159,7 +157,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** The custom information (i.e. payload) inside of JWT can be [easily decoded](https://jwt.io/#debugger). What kind of information should we _not_ store inside of a JWT?
 
-* **Your Answer:**
+* **Your Answer:** Passwords and any account or sensitive information.
 
 ---
 
@@ -173,7 +171,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** The `.sign()` method takes three arguments. Describe each argument in your own words, using the above code as an example.
 
-* **Your Answer:**
+* **Your Answer:** `payload` is the data. It's the object literal, buffer or string the represents valid JSON, `secretOrPrivatedKey` is a string, buffer or object that contains secret HMAC or PEM encoded private key for RSA and ECDSA - https://www.npmjs.com/package/jsonwebtoken. `options` give you a number of different built-in methods, like an expiration for example, that you could place a custom time on.
 
 ---
 
@@ -189,7 +187,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** Describe the difference between **authentication** and **authorization**, given the above context.
 
-* **Your Answer:**
+* **Your Answer:** In this case, **authentication** means that the user has a valid JWT. **authorization** means the user can then access specific routes or aspects of an app depending on their permissions level.
 
 ---
 
@@ -217,7 +215,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** What happens? Why?
 
-* **Your Answer:**
+* **Your Answer:** The user's JWT is checked to make sure it's valid. Then if the user has the right permissions they are authorized to see a guest profile and the password information is hiding via the Mongoose `.select()` built-in method. If they don't have permissions, then they will see an error message stating "You are not authorized to access this route.".
 
 ---
 
@@ -225,7 +223,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** What happens? Why?
 
-* **Your Answer:**
+* **Your Answer:** Once a valid Bearer Token is added to Postman, the user would have access to the profile route.
 
 ---
 
