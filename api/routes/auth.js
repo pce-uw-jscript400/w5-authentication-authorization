@@ -4,6 +4,7 @@ const Guest = require('../models/guest')
 const bcrypt = require('bcrypt')
 const jsonwebtoken = require('jsonwebtoken')
 
+
 router.get('/profile', async (req, res, next) => {
     try {
       const token = req.headers.authorization.split('Bearer ')[1]
@@ -58,6 +59,7 @@ router.post('/login', async (req, res, next) => {
         //return success
         const payload = { id: guest._id } //setup payload
         const options = { expiresIn: '1 day' } //add expiration
+        console.log(SECRET_KEY)
         const token = jsonwebtoken.sign(payload, SECRET_KEY, options) //create token
         res.status(status).json({status, token})
 

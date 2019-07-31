@@ -1,7 +1,8 @@
 const jsonwebtoken = require('jsonwebtoken')
-const SECRET_KEY = process.env
+const { SECRET_KEY } = process.env
 
-const validateToken = async (req, res, response) => {
+
+const validateToken = async (req, res, next) => {
     try {
         //make sure token exists
         const token = req.headers.authorization.split('Bearer ')[1]
@@ -9,6 +10,7 @@ const validateToken = async (req, res, response) => {
         //verify it
         const payload = jsonwebtoken.verify(token, SECRET_KEY)
     } catch (e) {
+        console.error(e)
         e.status = 401
         return next(e)
     }
