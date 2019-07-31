@@ -40,7 +40,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Your Answer:** 
 
----
+---Whenever `npm run reset-db` is ran, the function `reset()` within `db/seed.js` file is executed. This function first calls the `deleteMany()` method of the `Party` collection, which eliminates any existing documents from the collection. Then the `create()` method is called and two initial documents are created. This is a useful method to reset/reformat to a "default" or "foundation" instance of your collection.
 
 - [ ] Imagine that as a user, you enter your username and password into a site in order to signup.
 
@@ -48,7 +48,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Your Answer:**
 
----
+--- Assuming that various validations are performed against the username and password. For user name, system may check for format, type, etc. or for whether or not the user name already exists. For password, may check for format, type, length requirements, etc. If all validations are successful, a user/password record/collection is created.
 
 - [ ] Imagine that as a user, you are now logging back into that same website. 
 
@@ -56,7 +56,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Your Answer:**
 
----
+--- System will perform a look up of the user profile based on indicated user name, verify password is matching. If validations are successful, system would create authenticated session for user.
 
 - [ ] Imagine that as a logged-in user, you try to go to a route you are not supposed to (e.g. /admin).
 
@@ -64,11 +64,13 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Your Answer:**
 
+--- The user's profile may contain some information regarding the user's authorization; ability to access or request various data, routes, of the website.
+
 * **Question:** Describe the difference between authentication and authorization.
 
 * **Your Answer:**
 
----
+--- Authentication is the method of identifying a user within the website, authorization is the method of identifying the user's capabilities within the website.
 
 - [ ] Build a new model called `Guest`. The `Guest` model should have the following fields: `username`, `password`
 
@@ -82,15 +84,19 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Your Answer:**
 
+--- The user name, password data is available/visible in the POST response. Neither is encrypted.
+
 * **Question:** What would happen if three different users tried to sign up with the same username? How can we prevent that?
 
 * **Your Answer:**
+
+---Unless there is some validation to prevent it, the username would be created successfully for each request, with each having its own unique `_id`. By validating/checking for any existing user of the same user name during handling of the POST request, the system can prevent any duplicate user creation.
 
 * **Question:** Why are we making our route `POST /api/signup` as opposed to `POST /api/users`?
 
 * **Your Answer:**
 
----
+---`/api/signup` is more indicative of a user creation flow, vs `/api/users` that could be used to create new or modify existing user data.
 
 - [ ] We need a way to securely store a password in our database. Install [node.bcrypt.js](https://www.npmjs.com/package/bcrypt), require it in your new routes file, and use the `bcrypt.hash()` method to encrypt the password before storing it. Test your signup process to make sure the password is hashed.
 
@@ -104,7 +110,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Your Answer:**
 
----
+--- I like the explanation of `saltRounds` as a cost factor, describing the duration required by the system, `2^saltRounds` to encrypt the password.
 
 - [ ] Right now, users can create new accounts with the same username. Update your code so that before we create a guest, we check to see whether or not a guest already exists with that username. If it does, return an error.
 
@@ -118,7 +124,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Your Answer:** 
 
----
+--- You want to be careful about identifying specific root cause for authentication failures as this type of information actually helps people attempting to hack, spoof, etc a given login or user identify where they need to adjust their attempt at credentials.
 
 - [ ] The above process can be a bit tricky. Take a moment to annotate your code with comments, explaining each step of your code.
 
@@ -130,7 +136,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Your Answer:**
 
----
+--- There are three parts: `header`, `payload`, and `signature`; The `header`is meta data which identifies the token type, and signing algorithm. The `payload` includes any data/information to be stored in that token. The `signature` is a combination of the encoded header, the encoded payload and a secret, encoded using the algorithm specified in the header, and signed. It is used to verify the validity of the token.
 
 - [ ] We will implement JWTs using the [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken) package. Install this package and include it at the top of your `auth.js` file.
 
@@ -138,15 +144,19 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Your Answer:**
 
+--- We will creating/decoding JWTs in the `/login` route, as part of authentication
+
 * **Question:** JWTs allow for custom information (i.e. payload) to be returned back to the client. What kind of information do you think would be useful to send back to our client?
 
 * **Your answer:**
+
+--- An application may want to know data like authorization (permissions/access), token expiration threshold, timestamp, etc.
 
 * **Question:** The custom information (i.e. payload) inside of JWT can be [easily decoded](https://jwt.io/#debugger). What kind of information should we _not_ store inside of a JWT?
 
 * **Your Answer:**
 
----
+--- Sensitive information such as user name, password, contact information, billing or payment information, etc.
 
 - [ ] Add the following code to `/login` route and then respond with the token when a user successfully is able to login. _NOTE: In the example below, I assume you've required the package and assigned it to a `jsonwebtoken` variable._
 
@@ -160,7 +170,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Your Answer:**
 
----
+---The first argument `payload` represents the data to be passed in the JWT, in this case `{ id: guest._id }`. The second argument is the secret, in this case `MYSECRETPASSCODE`. The last argument `options` can include a number of different options such as expiresIn, algorithm, audience, issuer, etc.
 
 - [ ] Right now our secret is not so secret. Add a new environment variable to your `nodemon.json` file that stores the secret code. Then, use it in your `auth.js` file. _NOTE: Make sure to restart your server!_
 
@@ -176,7 +186,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Your Answer:**
 
----
+---I think this is same as above, in that authentication refers to verification of the user credentials (name/password) as a means to identify the user, and authorization refering to verification of the user's capabilities, access rights, etc.
 
 - [ ] Add the following route to the top of your `auth.js` file. Then, make a request to this route in Postman.
   
@@ -202,7 +212,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Your Answer:**
 
----
+--- 404 Error recieved with message, `You are not authorized to access this route`. this is because I do not have an auth token included with the HTTP request to provide "authorization".
 
 - [ ] In order to successfully access this route, we will need to send over the token in the HTTP Authorization Header. The typical way to do this is by sending a [Bearer token](https://security.stackexchange.com/questions/108662/why-is-bearer-required-before-the-token-in-authorization-header-in-a-http-re). To do this in Postman, go to the "Authorization" tab, select "Bearer Token" as the Type, and then enter your token.
 
@@ -210,7 +220,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Your Answer:**
 
----
+--- Status 200 recieved with response which identifies the user associated to the token. I am authenticated/authorized by way of the token submitted along with the HTTP request.
 
 - [ ] There is a lot going on in the above code. Take a moment to annotate each line so you are able to confirm your understanding of what is happening.
 
