@@ -38,7 +38,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** Describe what this code is doing and what its purpose is.
 
-* **Your Answer:** 
+* **Your Answer:** It is connecting to a database and then delete all the existing records in the party collection and then re create two new documents in the party collection
 
 ---
 
@@ -46,15 +46,15 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** What happens next?
 
-* **Your Answer:**
+* **Your Answer:** Check the database to see of the user name exists, check password validation and send the password in an encrypted form up to the server and then update the database with the user credentials
 
 ---
 
-- [ ] Imagine that as a user, you are now logging back into that same website. 
+- [ ] Imagine that as a user, you are now logging back into that same website.
 
 * **Question:** How does the website verify that you are indeed the same user?
 
-* **Your Answer:**
+* **Your Answer:** The website does a read for the user name and the password and validates the same. Does a read here instead of a create
 
 ---
 
@@ -62,11 +62,11 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** How does the website know you are or are not allowed on a specific route?
 
-* **Your Answer:**
+* **Your Answer:** It will need to have some sort of user info to determine if a user is allowed to access the route or not. Needs to do route validation to check if you can access the route or not
 
 * **Question:** Describe the difference between authentication and authorization.
 
-* **Your Answer:**
+* **Your Answer:** Authentication is validating you are who you say you are and authorization is validating that you are allowed to do whatever you are trying to do
 
 ---
 
@@ -80,15 +80,15 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** This code is currently _very_ insecure. Why?
 
-* **Your Answer:**
+* **Your Answer:** password is unencrypted
 
 * **Question:** What would happen if three different users tried to sign up with the same username? How can we prevent that?
 
-* **Your Answer:**
+* **Your Answer:** The earlier users would be overridden with the newer users. hence it is important to check if there is an existing user and only if there isnt one allow new users
 
 * **Question:** Why are we making our route `POST /api/signup` as opposed to `POST /api/users`?
 
-* **Your Answer:**
+* **Your Answer:** users seems like a path you would use to query for a spefic user, especially when you combine it with request params. But signup seems to be more specific to the action that the user is about to undertake and hence signup is more descriptive than users
 
 ---
 
@@ -102,7 +102,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
   _NOTE: We will not go into this too deeply for the sake of brevity, however this is a really interesting topic! I would encourage you to look into this more on your own, if you're interested._
 
-* **Your Answer:**
+* **Your Answer:** saltrounds define the number of times, it tries to hash the password
 
 ---
 
@@ -116,7 +116,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** Why is it important to give a non-specific error message as opposed to a message like "Password incorrect?"
 
-* **Your Answer:** 
+* **Your Answer:** Either the username or the password can be incorrect, so we dont want to give a hint that there is a user with the given username and hence a generic error message
 
 ---
 
@@ -128,7 +128,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** In your own words, describe the three parts of a JWT.
 
-* **Your Answer:**
+* **Your Answer:** Header is the part that contains the metadata, payload contains the info regarding the details of the token, signature is a combination of a header and payload and a secret. A secret is something that is unique to the server and this is used to validate the token that is received when we decrypt it
 
 ---
 
@@ -136,15 +136,15 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** Which of our current routes will require us to use the `jsonwebtoken` library? (i.e. When will we be creating or decoding JWTs?)
 
-* **Your Answer:**
+* **Your Answer:** We will be creating JWT's on login route. Upon succesful login a JWT will be handed back to the user
 
 * **Question:** JWTs allow for custom information (i.e. payload) to be returned back to the client. What kind of information do you think would be useful to send back to our client?
 
-* **Your answer:**
+* **Your answer:** Something like user id and any basic user information.
 
 * **Question:** The custom information (i.e. payload) inside of JWT can be [easily decoded](https://jwt.io/#debugger). What kind of information should we _not_ store inside of a JWT?
 
-* **Your Answer:**
+* **Your Answer:** Anything important like the actual password itself, credit card details etc No private/confidential information
 
 ---
 
@@ -158,7 +158,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** The `.sign()` method takes three arguments. Describe each argument in your own words, using the above code as an example.
 
-* **Your Answer:**
+* **Your Answer:** The payload is something that is used to send in some basic user info like a user id etc, options is something that can be more token related, something like when does the token expire etc and the third argument is the SECRET_KEy which would be something unique to the user and something that only that particular user will have access to
 
 ---
 
@@ -174,12 +174,12 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** Describe the difference between **authentication** and **authorization**, given the above context.
 
-* **Your Answer:**
+* **Your Answer:** In the context of this example, all registered users once authenticated might be allowed access to party homepage, but only some users who have the exclusive status set will be allowed to access the exclusive section of the party and if a user whose status is not exclusive tries to access rge exclusive route then we will block him. Allowing registered users to get to party home page is authentication and allowing only exclusive users to exclusive page is authorization
 
 ---
 
 - [ ] Add the following route to the top of your `auth.js` file. Then, make a request to this route in Postman.
-  
+
   ```js
   router.get('/profile', async (req, res, next) => {
     try {
@@ -188,7 +188,7 @@ Once installation is working, take a look at the existing code to make sure you 
       const guest = await Guest.findOne({ _id: payload.id }).select('-__v -password')
 
       const status = 200
-      res.json({ status, guest })  
+      res.json({ status, guest })
     } catch (e) {
       console.error(e)
       const error = new Error('You are not authorized to access this route.')
@@ -200,7 +200,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** What happens? Why?
 
-* **Your Answer:**
+* **Your Answer:** We get an error as we are not sending the token
 
 ---
 
@@ -208,7 +208,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** What happens? Why?
 
-* **Your Answer:**
+* **Your Answer:** Once you have entered the correct token , you will get access
 
 ---
 
