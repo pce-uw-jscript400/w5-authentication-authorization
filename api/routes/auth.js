@@ -5,12 +5,6 @@ const jwt = require('jsonwebtoken')
 
 const {SECRET_KEY} = process.env
 
-//If a user provides a token, they are able to see all of the exclusive parties. If not, return a 401 Unauthorized message.
-
-// const requiresToken = function(req, res, next) {
-//   if 
-// }
-
 router.get('/profile', async (req, res, next) => {
   try {
     const token = req.headers.authorization.split('Bearer ')[1] // we define the token as the second object in the authorization array
