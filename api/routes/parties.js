@@ -1,7 +1,6 @@
 const router = require('express').Router()
 const Guest = require('../models/guest')
 const Party = require('../models/party')
-const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
 const {SECRET_KEY} = process.env
@@ -14,15 +13,14 @@ router.get('/', async (req, res, next) => {
     let parties
     console.log(guest)
     if (guest){
-      const parties = await Party.find().select('-__v')
+      let parties = await Party.find().select('-__v')
       console.log("you have access")
       console.log(parties)
     } else {
       console.log("you dont have access")
-      // const parties = await Party.find().select('false')
+      let parties = await Party.find().select('false')
     }
-    
-
+  
     const status = 200 // success status
     res.status(status).json({ status, parties })
   } catch (e) {
