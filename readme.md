@@ -84,7 +84,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** What would happen if three different users tried to sign up with the same username? How can we prevent that?
 
-* **Your Answer:** 
+* **Your Answer:** they could potentially see other peoples data, we could check the database for existing usernames
 
 * **Question:** Why are we making our route `POST /api/signup` as opposed to `POST /api/users`?
 
@@ -102,7 +102,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
   _NOTE: We will not go into this too deeply for the sake of brevity, however this is a really interesting topic! I would encourage you to look into this more on your own, if you're interested._
 
-* **Your Answer:** Salt Round is the complexity of the mathematical equation that creates the has from your password. The more complex the longer the equation takes to encrypt the password.  
+* **Your Answer:** Salt Round increases the complexity of the mathematical equation that creates the hash from your password. The more complex the longer the equation takes to encrypt the password.  
 
 ---
 
@@ -158,7 +158,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** The `.sign()` method takes three arguments. Describe each argument in your own words, using the above code as an example.
 
-* **Your Answer:** payload = the data you're passing, secret key is you server key, options is other crap
+* **Your Answer:** payload = the data you're passing, secret key is you server key, options is metadata
 
 ---
 
@@ -174,7 +174,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** Describe the difference between **authentication** and **authorization**, given the above context.
 
-* **Your Answer:**
+* **Your Answer:** Authentication checks that they are the user in the database that they say they are. Authorization says they can visit certain routes because of that status.
 
 ---
 
@@ -200,7 +200,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** What happens? Why?
 
-* **Your Answer:**
+* **Your Answer:** we didn't send over any headers with the token so we got an error
 
 ---
 
@@ -208,7 +208,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** What happens? Why?
 
-* **Your Answer:**
+* **Your Answer:** You're allowed because you've sent your auth token back in your header
 
 ---
 
