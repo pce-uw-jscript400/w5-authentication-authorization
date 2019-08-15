@@ -7,5 +7,4 @@ const schema = mongoose.Schema({
     default: false
   }
 })
-
 module.exports = mongoose.model('Party', schema)
