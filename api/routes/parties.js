@@ -12,7 +12,7 @@ const validateToken = async (req, res, next, error) => {
       const payload = jsonwebtoken.verify(token, SECRET_KEY)
       const validGuest = Guest.findOne({ _id: payload.id })
         .select('-__v -password')
-      return validGuest    
+      next (validGuest)    
     }
   } catch (e) {
     console.error(e)
