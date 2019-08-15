@@ -38,7 +38,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** Describe what this code is doing and what its purpose is.
 
-* **Your Answer:** 
+* **Your Answer:** This code is bringing in the Party model and clearing all Party records with an asynchronous reset() function. Afterwards, it creates two parties. Overall, it resets the Party records in mongo-db.
 
 ---
 
@@ -46,15 +46,14 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** What happens next?
 
-* **Your Answer:**
-
+* **Your Answer:** The site checks whether a username exists.  Then, if username does not exist, it encrypts the password and stores it in the database.  If it matches, it may return an authentication token to the user's client to login.
 ---
 
 - [ ] Imagine that as a user, you are now logging back into that same website. 
 
 * **Question:** How does the website verify that you are indeed the same user?
 
-* **Your Answer:**
+* **Your Answer:** The site checks whether a username exists.  Then, if username exists, it encrypts the password and checks to see if the password matches the username.  If it matches, it returns an authentication token to the user's client.
 
 ---
 
@@ -62,11 +61,11 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** How does the website know you are or are not allowed on a specific route?
 
-* **Your Answer:**
+* **Your Answer:** The user will have a role associated with their usability, i.e. admin, user, guest.  Only users with certain permissions allow them to access privelaged routes.
 
 * **Question:** Describe the difference between authentication and authorization.
 
-* **Your Answer:**
+* **Your Answer:** Authentication is verifying a user's credentials.  Authorization is giving a user certain access.
 
 ---
 
@@ -80,15 +79,15 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** This code is currently _very_ insecure. Why?
 
-* **Your Answer:**
+* **Your Answer:** Password is exposed and unencrypted.
 
 * **Question:** What would happen if three different users tried to sign up with the same username? How can we prevent that?
 
-* **Your Answer:**
+* **Your Answer:** We need to check database to see if username already exists with a GET request first.
 
 * **Question:** Why are we making our route `POST /api/signup` as opposed to `POST /api/users`?
 
-* **Your Answer:**
+* **Your Answer:** The process to signup is much different than just posting to a 'users' data collection.  it requires authentication and authorization and is a specific user process.
 
 ---
 
@@ -102,7 +101,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
   _NOTE: We will not go into this too deeply for the sake of brevity, however this is a really interesting topic! I would encourage you to look into this more on your own, if you're interested._
 
-* **Your Answer:**
+* **Your Answer:** saltRounds is how much time is used to create a bcrypt hash.  If it's higher, there are more hashing rounds, and it makes it much higher for a hacker to guess multiple passwords.  It is an exponential value, so it takes a few days for a saltRound of 35, vs. a second for a value of 13.
 
 ---
 
@@ -116,7 +115,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** Why is it important to give a non-specific error message as opposed to a message like "Password incorrect?"
 
-* **Your Answer:** 
+* **Your Answer:** This is important because otherwise a hacker with more info may decide to find a user's usernames and then try to hack the password afterwards.
 
 ---
 
@@ -128,7 +127,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** In your own words, describe the three parts of a JWT.
 
-* **Your Answer:**
+* **Your Answer:** Header, which shows JWT metadata.  The Payload, which contains the 'claims'. Claims describe the user, such as their name or role. They are Base64Url encoded. Lastly, there's the signature, which consumes the encoded header, payload, header algorithm secret, and then signs all that data. It's to make sure the data is authentic and unchanged from the sender.
 
 ---
 
@@ -136,15 +135,15 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** Which of our current routes will require us to use the `jsonwebtoken` library? (i.e. When will we be creating or decoding JWTs?)
 
-* **Your Answer:**
+* **Your Answer:** /signup and /login
 
 * **Question:** JWTs allow for custom information (i.e. payload) to be returned back to the client. What kind of information do you think would be useful to send back to our client?
 
-* **Your answer:**
+* **Your answer:** It would be useful to return user info such as name / username, user id, permissions and settings. It's best to keep this minimal.
 
 * **Question:** The custom information (i.e. payload) inside of JWT can be [easily decoded](https://jwt.io/#debugger). What kind of information should we _not_ store inside of a JWT?
 
-* **Your Answer:**
+* **Your Answer:** Do not store sensitive info like credit card info, social security number, phone numbers, etc., as it can be intercepted and decoded.
 
 ---
 
@@ -158,7 +157,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** The `.sign()` method takes three arguments. Describe each argument in your own words, using the above code as an example.
 
-* **Your Answer:**
+* **Your Answer:** The payload is the user info.  'MYSECRETPASSCODE' is usde to sign the token.  options are used so that the token doesn't last indefinitely
 
 ---
 
@@ -174,7 +173,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** Describe the difference between **authentication** and **authorization**, given the above context.
 
-* **Your Answer:**
+* **Your Answer:** Authentication is used to verify a user's credentials. Authorization happens with a back-end approves the user's credentials, gives the user a token and permission to access the database/route.
 
 ---
 
@@ -200,7 +199,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** What happens? Why?
 
-* **Your Answer:**
+* **Your Answer:** We get an error response because we are not authorized.  We need to adjust our auth in postman to "Bearer", an authorization header token
 
 ---
 
@@ -208,7 +207,7 @@ Once installation is working, take a look at the existing code to make sure you 
 
 * **Question:** What happens? Why?
 
-* **Your Answer:**
+* **Your Answer:** We receive a 200 response and are able to access the requested user information.
 
 ---
 
